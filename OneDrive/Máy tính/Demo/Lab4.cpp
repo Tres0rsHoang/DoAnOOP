@@ -341,7 +341,7 @@ int main(int argc,char* argv[])
     root = createTree(a, argc-2);
     LevelOrder(root);
     cout << endl;
-    Remove(root, findMax(root));
+    //Remove(root, findMax(root));
     LevelOrder(root);
     return 0;
 }
