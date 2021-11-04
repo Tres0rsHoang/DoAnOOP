@@ -117,12 +117,13 @@ int main() {
     screen PlayGround(0, 0, 66, 40);
     PlayGround._printFrame(6);
     
+    
     Player a(PlayGround);
     a._show();
 
     thread t1(&Player::_move, a, PlayGround);
     t1.join();
-    
+
     char delay = _getch();
     return 0;
 }
