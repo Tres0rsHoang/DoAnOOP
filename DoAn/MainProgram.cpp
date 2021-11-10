@@ -109,6 +109,74 @@ public:
     }
 };
 
+class Vehicle
+{
+private:
+    int x;
+    int y;
+public:
+    Vehicle() {
+        this->x = 0;
+        this->y = 0;
+    }
+    Vehicle(screen Truck) {
+        int* background = Truck._getinform();
+        this->x = (background[2] - background[0]/2);
+        this->y = background[3] - 9;
+    }
+
+    void GotoXY(int x, int y) {
+        COORD coord;
+        coord.X = x;
+        coord.Y = y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    }
+    void _show() {
+        GotoXY(this->x, this->y);
+        cout << "  ______";
+        GotoXY(this->x, this->y + 1);
+        cout << " /|_||_\ `.__";
+        GotoXY(this->x, this->y + 2);
+        cout << "(   _    _ _\\";
+        GotoXY(this->x, this->y + 3);
+        cout << "=`-(_)--(_)-' ";
+    }
+    void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "              ";
+        GotoXY(this->x, this->y + 1);
+        cout << "              " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "              " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "              " << endl;
+    }
+    void _move(screen Truck){
+        int* background = Truck._getinform();
+        int pos = this->x;
+        int i = 1;
+
+        while (true) {
+            if (i < 50)
+            {
+                this->_destroy();
+                this->x += 1;
+                this->_show();
+                unsigned int milisecond = 100;
+                Sleep(15);
+                this->_destroy();
+            }
+           else {
+               this->x = pos;
+               i = 1;
+            }
+            i++;
+        }
+
+    }
+};
+
+
 int main() {
     screen Menu(66, 0, 100, 40);
     Menu._format();
@@ -121,8 +189,15 @@ int main() {
     Player a(PlayGround);
     a._show();
 
-    thread t1(&Player::_move, a, PlayGround);
-    t1.join();
+    //thread t1(&Player::_move, a, PlayGround);
+   // t1.join();
+
+    screen Truck(0, 0,2, 40);
+    Vehicle b(Truck);
+    b._show();
+
+    thread t2(&Vehicle::_move, b, Truck);
+    t2.join();
 
     char delay = _getch();
     return 0;
