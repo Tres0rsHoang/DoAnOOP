@@ -91,11 +91,12 @@ public:
 		this->t = t;
 	}
 	void _format() {
+		system("cls");
 		SetWindowSize(this->z, this->t);
 		SetScreenBufferSize(this->z + 1, this->t + 1);
 		FixConsoleWindow();
 		ShowCur(0);
-		//DisableSelection();
+		DisableSelection();
 	}
 	int* _getinform() {
 		int* result = new int[4];
@@ -123,6 +124,13 @@ public:
 			cout << (char)219;
 		}
 		SetColor(0, 7);
+	}
+	void _printAnimationFrame(int color1, int color2) {
+		while (true){
+			this->_printFrame(color1);
+			Sleep(300);
+			this->_printFrame(color2);
+		}
 	}
 
 };

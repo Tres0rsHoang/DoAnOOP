@@ -112,17 +112,15 @@ public:
 int main() {
     screen Menu(66, 0, 100, 40);
     Menu._format();
-    Menu._printFrame(6);
-
     screen PlayGround(0, 0, 66, 40);
+    
+    Menu._printFrame(6);
     PlayGround._printFrame(6);
-    
-    
     Player a(PlayGround);
     a._show();
 
     thread t1(&Player::_move, a, PlayGround);
-    t1.join();
+    //t1.join();
 
     char delay = _getch();
     return 0;
