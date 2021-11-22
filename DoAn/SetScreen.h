@@ -125,13 +125,6 @@ public:
 		}
 		SetColor(0, 7);
 	}
-	void _printAnimationFrame(int color1, int color2) {
-		while (true){
-			this->_printFrame(color1);
-			Sleep(300);
-			this->_printFrame(color2);
-		}
-	}
 
 };
 

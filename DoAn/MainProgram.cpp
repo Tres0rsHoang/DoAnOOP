@@ -52,75 +52,164 @@ public:
         GotoXY(this->x, this->y + 2);
         cout << "   " << endl;
     }
-    void _move(screen PlayGround){
+    void _move(screen PlayGround, char choose){
         int* background = PlayGround._getinform();
-        bool stop = false;
-       
-        while (!stop) {
-            char choose = toupper(_getch());
-            switch (choose) {
-            case 'W': {
-                if (this->y - 1 < background[3] && this->y - 1 > background[1]) {
-                    this->_destroy();
-                    this->y -= 1;
-                    this->_show();
-                }
-                break;
-            }
-            case 'S': {
-                if (this->y + 3 < background[3] && this->y + 3 > background[1]) {
-                    this->_destroy();
-                    this->y += 1;
-                    this->_show();
-                }
-                break;
-            }
-            case 'D': {
-                if (this->x + 3 < background[2] && this->x + 3 > background[0]) {
-                    this->_destroy();
-                    this->x += 1;
-                    this->_show();
-                }
-                break;
-            }
-            case 'A': {
-                if (this->x - 1 < background[2] && this->x - 1 > background[0]) {
-                    this->_destroy();
-                    this->x -= 1;
-                    this->_show();
-                }
-                break;
-            }
-            case 27: {
-                stop = true;
-                break;
-            }
-            default:
-                GotoXY(this->x + 3, this->y);
-                cout << "ERROR MOVING";
-                Sleep(800);
-                GotoXY(this->x + 3, this->y);
-                cout << "             ";
-            }
-        }
-        GotoXY(this->x + 3, this->y);
-        cout << "DONE!!!";
         
+        switch (choose) {
+        case 'W': {
+            if (this->y - 1 < background[3] && this->y - 1 > background[1]) {
+                this->_destroy();
+                this->y -= 1;
+                this->_show();
+            }
+            break;
+        }
+        case 'S': {
+            if (this->y + 3 < background[3] && this->y + 3 > background[1]) {
+                this->_destroy();
+                this->y += 1;
+                this->_show();
+            }
+            break;
+        }
+        case 'D': {
+            if (this->x + 3 < background[2] && this->x + 3 > background[0]) {
+                this->_destroy();
+                this->x += 1;
+                this->_show();
+            }
+            break;
+        }
+        case 'A': {
+            if (this->x - 1 < background[2] && this->x - 1 > background[0]) {
+                this->_destroy();
+                this->x -= 1;
+                this->_show();
+            }
+            break;
+        }
+        default:
+            GotoXY(this->x + 3, this->y);
+            cout << "ERROR MOVING";
+            Sleep(800);
+            GotoXY(this->x + 3, this->y);
+            cout << "             ";
+        }
+
+        //GotoXY(this->x + 3, this->y);
+        //cout << "DONE!!!";
+
     }
 };
 
+class Vehicle
+{
+private:
+    int x;
+    int y;
+public:
+    Vehicle() {
+        this->x = 0;
+        this->y = 0;
+    }
+    Vehicle(screen PlayGround) {
+        int* background = PlayGround._getinform();
+        this->x = background[0] + 1;
+        this->y = background[3] - 9;
+    }
+
+    void GotoXY(int x, int y) {
+        COORD coord;
+        coord.X = x;
+        coord.Y = y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    }
+    void _show() {
+        GotoXY(this->x, this->y);
+        cout << "  ______";
+        GotoXY(this->x, this->y + 1);
+        cout << " /|_||_\\ `.__";
+        GotoXY(this->x, this->y + 2);
+        cout << "(   _    _ _\\";
+        GotoXY(this->x, this->y + 3);
+        cout << "=`-(_)--(_)-' ";
+    }
+    void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "              ";
+        GotoXY(this->x, this->y + 1);
+        cout << "              " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "              " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "              " << endl;
+    }
+    void _move(screen PlayGround, int& i){
+        int* background = PlayGround._getinform();
+        int pos = (background[0] + 1);
+
+        if (i < background[2] - 15) {
+            this->_destroy();
+            this->x += 1;
+            this->_show();
+            Sleep(30);
+        }
+        else {
+            this->_destroy();
+            this->x = pos;
+            this->_show();
+            i = 1;
+            Sleep(30);
+        }
+        i++;
+    }
+};
+
+
+void Thread_running(bool* Running, char* key) {
+    
+    screen PlayGround(0, 0, 66, 40);
+    Vehicle Car(PlayGround);
+    Car._show();
+
+    int poscar = 1;
+
+    while (*Running) {
+        Car._move(PlayGround, poscar);
+        //_getch();
+    }
+}
+
 int main() {
+
+    bool* run = new bool; *run = true;
+    char* key = new char; *key = ' ';
+
+    
+
     screen Menu(66, 0, 100, 40);
     Menu._format();
+
     screen PlayGround(0, 0, 66, 40);
-    
     Menu._printFrame(6);
     PlayGround._printFrame(6);
     Player a(PlayGround);
+
+    thread t1(Thread_running, run, key);
+
+    
     a._show();
 
-    thread t1(&Player::_move, a, PlayGround);
-    //t1.join();
+    while (1) {
+        *key = _getch();
+        
+        a._move(PlayGround, toupper(*key));
+        if ((int)*key == 27) {
+            *run = false;
+            t1.join();
+            break;
+        }
+    }
 
     char delay = _getch();
     return 0;
