@@ -43,7 +43,7 @@ int main() {
     bool* run = new bool; *run = true;
     char* key = new char; *key = ' ';
     bool newKey = true;
-    cout << "Dm conflix di";
+
     thread t1(Thread_running, run, key, ref(newKey));
 
     while (1) {
