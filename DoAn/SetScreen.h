@@ -96,7 +96,7 @@ public:
 		SetScreenBufferSize(this->z + 1, this->t + 1);
 		FixConsoleWindow();
 		ShowCur(0);
-		DisableSelection();
+		//DisableSelection();
 	}
 	int* _getinform() {
 		int* result = new int[4];
@@ -125,7 +125,9 @@ public:
 		}
 		SetColor(0, 7);
 	}
+	void _displayscreen(char key) {
 
+	}
 };
 
 
