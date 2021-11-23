@@ -88,6 +88,14 @@ public:
             }
             break;
         }
+        case 27: {
+            GotoXY(this->x + 3, this->y);
+            cout << "Done!!";
+            Sleep(800);
+            GotoXY(this->x + 3, this->y);
+            cout << "      ";
+            break;
+        }
         default:
             GotoXY(this->x + 3, this->y);
             cout << "ERROR MOVING";
@@ -165,10 +173,18 @@ public:
     }
 };
 
+void Thread_running(bool* Running, char* key, bool& newKey) {
 
-void Thread_running(bool* Running, char* key) {
-    
+    screen Menu(66, 0, 100, 40);
     screen PlayGround(0, 0, 66, 40);
+    Menu._format();
+
+    Menu._printFrame(6);
+    PlayGround._printFrame(6);
+
+
+    Player a(PlayGround);
+    a._show();
     Vehicle Car(PlayGround);
     Car._show();
 
@@ -176,34 +192,24 @@ void Thread_running(bool* Running, char* key) {
 
     while (*Running) {
         Car._move(PlayGround, poscar);
-        //_getch();
+        if (newKey) {
+            a._move(PlayGround, toupper(*key));
+            newKey = false;
+        }
     }
 }
 
 int main() {
-
     bool* run = new bool; *run = true;
     char* key = new char; *key = ' ';
-
+    bool newKey = true;
     
-
-    screen Menu(66, 0, 100, 40);
-    Menu._format();
-
-    screen PlayGround(0, 0, 66, 40);
-    Menu._printFrame(6);
-    PlayGround._printFrame(6);
-    Player a(PlayGround);
-
-    thread t1(Thread_running, run, key);
-
-    
-    a._show();
+    thread t1(Thread_running, run, key, ref(newKey));
 
     while (1) {
         *key = _getch();
-        
-        a._move(PlayGround, toupper(*key));
+        newKey = true;
+
         if ((int)*key == 27) {
             *run = false;
             t1.join();
