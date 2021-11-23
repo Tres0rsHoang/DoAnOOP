@@ -1,7 +1,11 @@
-﻿#include <iostream>
+﻿#ifndef SETSCREEN_H_
+#define SETSCREEN_H_
+
+#include <iostream>
 #include <Windows.h>
+#include <thread>
 #include <conio.h>
-#include <cwchar>
+#include <thread>
 
 using namespace std;
 
@@ -125,10 +129,8 @@ public:
 		}
 		SetColor(0, 7);
 	}
-	void _displayscreen(char key) {
-
-	}
 };
 
+#endif
 
 

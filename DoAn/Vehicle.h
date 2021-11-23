@@ -1,15 +1,17 @@
+#ifndef VEHICLE_H_
+#define VEHICLE_H_
+
 #include <iostream>
 #include <Windows.h>
 #include <thread>
 #include <conio.h>
 #include <thread>
+
 #include "SetScreen.h"
 
 using namespace std;
 
-
-class Vehicle
-{
+class Vehicle{
 private:
     int x;
     int y;
@@ -50,28 +52,28 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << "              " << endl;
     }
-    void _move(screen PlayGround, int& i) {
+    void _move(screen PlayGround,int prelength, int length, int& poscar, bool direction, int speed) {
         int* background = PlayGround._getinform();
-        int pos = (background[0] + 1);
+        int pos = 0;
 
-        if (i < background[2] - 15) {
+        if (poscar < background[2] - length) {
             this->_destroy();
             this->x += 1;
             this->_show();
-            Sleep(30);
+            Sleep(speed);
         }
         else {
             this->_destroy();
             this->x = pos;
             this->_show();
             i = 1;
-            Sleep(30);
+            Sleep(speed);
         }
-        i++;
+        poscar++;
     }
 };
 
-class Car :public Vehicle{
+class Car:public Vehicle{
 private:
     int x;
     int y;
@@ -194,3 +196,6 @@ public:
         i++;
     }
 };
+
+
+#endif

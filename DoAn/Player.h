@@ -1,12 +1,15 @@
+#ifndef PLAYER_H_
+#define PLAYER_H_
+
 #include <iostream>
 #include <Windows.h>
 #include <thread>
 #include <conio.h>
 #include <thread>
+
 #include "SetScreen.h"
 
 using namespace std;
-
 
 class Player {
 private:
@@ -107,3 +110,5 @@ public:
 
     }
 };
+
+#endif
