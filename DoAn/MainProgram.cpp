@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <Windows.h>
 #include <thread>
 #include <conio.h>
@@ -136,11 +136,11 @@ public:
         GotoXY(this->x, this->y);
         cout << "  ______";
         GotoXY(this->x, this->y + 1);
-        cout << " /|_||_\\ `.__";
+        cout << " /|_||_\\`.__";
         GotoXY(this->x, this->y + 2);
-        cout << "(   _    _ _\\";
+        cout << "(   _    _  _\\";
         GotoXY(this->x, this->y + 3);
-        cout << "=`-(_)--(_)-' ";
+        cout << "=`-(_)- -(_)-' ";
     }
     void _destroy() {
         GotoXY(this->x, this->y);
@@ -152,7 +152,7 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << "              " << endl;
     }
-    void _move(screen PlayGround, int& i){
+    virtual void _move(screen PlayGround, int& i){
         int* background = PlayGround._getinform();
         int pos = (background[0] + 1);
 
@@ -173,6 +173,132 @@ public:
     }
 };
 
+class Car:public Vehicle
+{
+private:
+    int x;
+    int y;
+public:
+    Car() {
+        this->x = 0;
+        this->y = 0;
+    }
+    Car(screen PlayGround) {
+        int* background = PlayGround._getinform();
+        this->x = background[0] + 1;
+        this->y = background[3] - 9;
+    }
+
+    void GotoXY(int x, int y) {
+        COORD coord;
+        coord.X = x;
+        coord.Y = y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    }
+    void _show() {
+        GotoXY(this->x, this->y);
+        cout << "  ______                  ______        ";
+        GotoXY(this->x, this->y + 1);
+        cout << " /|_||_\\`.__            /|_| |_\\`.__   ";
+        GotoXY(this->x, this->y + 2);
+        cout << "(   _  _    _\\          (   _  _    _\\ ";
+        GotoXY(this->x, this->y + 3);
+        cout << "=`-(_)- -(_)-'          =`-(_)- -(_)-' ";
+    }
+    void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "                                       ";
+        GotoXY(this->x, this->y + 1);
+        cout << "                                       " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "                                       " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "                                       " << endl;
+    }
+    void _move(screen PlayGround, int& i) {
+        int* background = PlayGround._getinform();
+        int pos = (background[0] + 1);
+
+        if (i < background[2] - 40) {
+            this->_destroy();
+            this->x += 1;
+            this->_show();
+            Sleep(30);
+        }
+        else {
+            this->_destroy();
+            this->x = pos;
+            this->_show();
+            i = 1;
+            Sleep(30);
+        }
+        i++;
+    }
+};
+
+class Truck :public Vehicle
+{
+private:
+    int x;
+    int y;
+public:
+    Truck() {
+        this->x = 0;
+        this->y = 0;
+    }
+    Truck(screen PlayGround) {
+        int* background = PlayGround._getinform();
+        this->x = background[2] - 25;
+        this->y = background[3] - 18;
+    }
+
+    void GotoXY(int x, int y) {
+        COORD coord;
+        coord.X = x;
+        coord.Y = y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    }
+    void _show() {
+        GotoXY(this->x, this->y);
+        cout << "     ______________ ";
+        GotoXY(this->x, this->y + 1);
+        cout << "  __|              | ";
+        GotoXY(this->x, this->y + 2);
+        cout << "/___|   ___   __   | ";
+        GotoXY(this->x, this->y + 3);
+        cout << "--(_)- --     -(_)== ";
+    }
+    void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "                        ";
+        GotoXY(this->x, this->y + 1);
+        cout << "                        " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "                        " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "                        " << endl;
+    }
+    void _move(screen PlayGround, int& i) {
+        int* background = PlayGround._getinform();
+        int pos = (background[2] - 25);
+
+        if (i < background[2] - 25) {
+            this->_destroy();
+            this->x -= 1;
+            this->_show();
+            Sleep(20);
+        }
+        else {
+            this->_destroy();
+            this->x = pos;
+            this->_show();
+            i = 1;
+            Sleep(20);
+        }
+        i++;
+    }
+};
+
 void Thread_running(bool* Running, char* key, bool& newKey) {
 
     screen Menu(66, 0, 100, 40);
@@ -185,13 +311,19 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
 
     Player a(PlayGround);
     a._show();
-    Vehicle Car(PlayGround);
-    Car._show();
+
+    Car ca(PlayGround);
+    ca._show();
+
+    Truck tr(PlayGround);
+    tr._show();
 
     int poscar = 1;
+    int Ghbac = 1;
 
     while (*Running) {
-        Car._move(PlayGround, poscar);
+        ca._move(PlayGround, poscar);
+        tr._move(PlayGround, Ghbac);
         if (newKey) {
             a._move(PlayGround, toupper(*key));
             newKey = false;
