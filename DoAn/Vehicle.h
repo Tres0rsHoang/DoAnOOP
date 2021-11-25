@@ -32,51 +32,97 @@ public:
         coord.Y = y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
-    void _show() {
-        GotoXY(this->x, this->y);
-        cout << "  ______";
-        GotoXY(this->x, this->y + 1);
-        cout << " /|_||_\\ `.__";
-        GotoXY(this->x, this->y + 2);
-        cout << "(   _    _ _\\";
-        GotoXY(this->x, this->y + 3);
-        cout << "=`-(_)--(_)-' ";
+    virtual void increaseX() {
+        this->x += 1;
     }
-    void _destroy() {
-        GotoXY(this->x, this->y);
-        cout << "              ";
-        GotoXY(this->x, this->y + 1);
-        cout << "              " << endl;
-        GotoXY(this->x, this->y + 2);
-        cout << "              " << endl;
-        GotoXY(this->x, this->y + 3);
-        cout << "              " << endl;
+    virtual void baseX(int p) {
+        this->x = p;
     }
-    void _move(screen PlayGround,int prelength, int length, int& poscar, bool direction, int speed) {
-        int* background = PlayGround._getinform();
-        int pos = 0;
+    virtual void decreaseX() {
+        this->x -= 1;
+    }
+    virtual void _show() {
+        GotoXY(this->x, this->y);
+        cout << "  _______        ";
+        GotoXY(this->x, this->y + 1);
+        cout << " /|_||_\\ `.__   ";
+        GotoXY(this->x, this->y + 2);
+        cout << "(   _      _ _\\ ";
+        GotoXY(this->x, this->y + 3);
+        cout << "=`-(_)-  -(_)-'  ";
+    }
+    virtual void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "                 ";
+        GotoXY(this->x, this->y + 1);
+        cout << "                 " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "                 " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "                 " << endl;
+    }
+    virtual void _destroyCol() {
+        GotoXY(this->x, this->y);
+        cout << " ";
+        GotoXY(this->x, this->y + 1);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << " " << endl;
+    }
+    
+    //void _move(screen PlayGround,int prelength, int length, int& poscar, bool direction, int speed) {
+    void _move(screen PlayGround, int& poscar, int speed, bool direction, int lengtVe) {
+       
+        if (direction) {
+            int* background = PlayGround._getinform();
+            int pos = (background[0] +1);
+            if (poscar < background[2] - lengtVe) {
+                
+                this->_destroy();
+                this->increaseX();
+                this->_show();
+                Sleep(speed);
+            }
+            else {
+                this->_destroy();
+                this->baseX(pos);
+                this->_show();
+                poscar = 1;
+                Sleep(speed);
+            }
+            poscar++;
+        }
+        else
+        {
+            int* background = PlayGround._getinform();
+            int pos = (background[2] - 25);
 
-        if (poscar < background[2] - length) {
-            this->_destroy();
-            this->x += 1;
-            this->_show();
-            Sleep(speed);
+            if (poscar < background[2] - 25) {
+                this->_destroy();
+                this->decreaseX();
+                this->_show();
+                Sleep(20);
+            }
+            else {
+                this->_destroyCol();
+                this->baseX(pos);
+                this->_show();
+                poscar = 1;
+                Sleep(20);
+            }
+            poscar++;
         }
-        else {
-            this->_destroy();
-            this->x = pos;
-            this->_show();
-            i = 1;
-            Sleep(speed);
-        }
-        poscar++;
     }
 };
 
-class Car:public Vehicle{
+class Car :public Vehicle {
+    
 private:
     int x;
     int y;
+    
 public:
     Car() {
         this->x = 0;
@@ -94,51 +140,55 @@ public:
         coord.Y = y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
-    void _show() {
-        GotoXY(this->x, this->y);
-        cout << "  ______                  ______        ";
-        GotoXY(this->x, this->y + 1);
-        cout << " /|_||_\\`.__            /|_| |_\\`.__   ";
-        GotoXY(this->x, this->y + 2);
-        cout << "(   _  _    _\\          (   _  _    _\\ ";
-        GotoXY(this->x, this->y + 3);
-        cout << "=`-(_)- -(_)-'          =`-(_)- -(_)-' ";
-    }
-    void _destroy() {
-        GotoXY(this->x, this->y);
-        cout << "                                       ";
-        GotoXY(this->x, this->y + 1);
-        cout << "                                       " << endl;
-        GotoXY(this->x, this->y + 2);
-        cout << "                                       " << endl;
-        GotoXY(this->x, this->y + 3);
-        cout << "                                       " << endl;
-    }
-    void _move(screen PlayGround, int& i) {
-        int* background = PlayGround._getinform();
-        int pos = (background[0] + 1);
 
-        if (i < background[2] - 40) {
-            this->_destroy();
-            this->x += 1;
-            this->_show();
-            Sleep(30);
-        }
-        else {
-            this->_destroy();
-            this->x = pos;
-            this->_show();
-            i = 1;
-            Sleep(30);
-        }
-        i++;
+    virtual void increaseX() {
+        this->x += 1;
     }
+    virtual void baseX(int p) {
+        this->x = p;
+    }
+    virtual void decreaseX() {
+        this->x -= 1;
+    }
+    virtual void _show() {
+        GotoXY(this->x, this->y);
+        cout << "  _______        ";
+        GotoXY(this->x, this->y + 1);
+        cout << " /|_||_\\ `.__   ";
+        GotoXY(this->x, this->y + 2);
+        cout << "(   _  V    _ _\\ ";
+        GotoXY(this->x, this->y + 3);
+        cout << "=`-(_)-  -(_)-'  ";
+    }
+    virtual void _destroy() {
+        GotoXY(this->x, this->y);
+        cout << "                 ";
+        GotoXY(this->x, this->y + 1);
+        cout << "                 " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << "                 " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << "                 " << endl;
+    }
+    virtual void _destroyCol() {
+        GotoXY(this->x, this->y);
+        cout << " ";
+        GotoXY(this->x, this->y + 1);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << " " << endl;
+    }
+
 };
 
-class Truck :public Vehicle{
+class Truck :public Vehicle {
+
 private:
     int x;
     int y;
+
 public:
     Truck() {
         this->x = 0;
@@ -156,7 +206,16 @@ public:
         coord.Y = y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
-    void _show() {
+    virtual void increaseX() {
+        this->x += 1;
+    }
+    virtual void baseX(int p) {
+        this->x = p;
+    }
+    virtual void decreaseX() {
+        this->x -= 1;
+    }
+    virtual void _show() {
         GotoXY(this->x, this->y);
         cout << "     ______________ ";
         GotoXY(this->x, this->y + 1);
@@ -166,7 +225,7 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << "--(_)- --     -(_)== ";
     }
-    void _destroy() {
+    virtual void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                        ";
         GotoXY(this->x, this->y + 1);
@@ -176,24 +235,15 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << "                        " << endl;
     }
-    void _move(screen PlayGround, int& i) {
-        int* background = PlayGround._getinform();
-        int pos = (background[2] - 25);
-
-        if (i < background[2] - 25) {
-            this->_destroy();
-            this->x -= 1;
-            this->_show();
-            Sleep(20);
-        }
-        else {
-            this->_destroy();
-            this->x = pos;
-            this->_show();
-            i = 1;
-            Sleep(20);
-        }
-        i++;
+    virtual void _destroyCol() {
+        GotoXY(this->x, this->y);
+        cout << " ";
+        GotoXY(this->x, this->y + 1);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 2);
+        cout << " " << endl;
+        GotoXY(this->x, this->y + 3);
+        cout << " " << endl;
     }
 };
 

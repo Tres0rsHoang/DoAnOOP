@@ -20,18 +20,43 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Player a(PlayGround);
     a._show();
 
-    Car ca(PlayGround);
-    ca._show();
 
-    Truck tr(PlayGround);
-    tr._show();
+    Car ca1(PlayGround);
+    Car ca2(PlayGround);
+    Car ca3(PlayGround);
 
-    int poscar = 1;
-    int Ghbac = 1;
+    Vehicle* b1 = new Car;
+    b1 = &ca1;
+    Vehicle* b2 = new Car;
+    b2 = &ca2;
+    Vehicle* b3 = new Car;
+    b3 = &ca3;
+
+    Truck tr1(PlayGround);
+    Truck tr2(PlayGround);
+    Vehicle* c1 = new Truck;
+    c1 = &tr1;
+    Vehicle* c2 = new Truck;
+    c2 = &tr2;
+
+    int poscar1 = 1;
+    int poscar2 = 1;
+
+    int postruck1 = 1;
+    int postruck2 = 1;
+
+
 
 
     while (*Running) {
-        Car._move(PlayGround, poscar);
+        b1->_move(PlayGround, poscar1, 50, 1, 20);
+        if (poscar1 >= 31) {
+            b2->_move(PlayGround, poscar2, 50, 1, 20);
+        }
+        c1->_move(PlayGround, postruck1, 50, 0, 20);
+        if (poscar1 >= 31) {
+            c2->_move(PlayGround, postruck2, 50, 0, 20);
+        }
         if (newKey) {
             a._move(PlayGround, toupper(*key));
             newKey = false;
