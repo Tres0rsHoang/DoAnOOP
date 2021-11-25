@@ -5,7 +5,6 @@
 #include <Windows.h>
 #include <thread>
 #include <conio.h>
-#include <thread>
 
 using namespace std;
 
@@ -128,6 +127,59 @@ public:
 			cout << (char)219;
 		}
 		SetColor(0, 7);
+	}
+
+	void _printDisplay(int color) {
+		SetColor(0, color);
+		GotoXY(5, 11);
+		cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
+		GotoXY(5, 12);
+		cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
+		GotoXY(5, 13);
+		cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
+		GotoXY(5, 14);
+		cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
+		GotoXY(5, 15);
+		cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
+		GotoXY(53, 22);
+		cout << "MENU";
+		GotoXY(47, 25);
+		SetColor(15, 6);
+		cout << ">> New Game";
+		SetColor(0, 6);
+		GotoXY(51, 26);
+		cout << "Load Game";
+		GotoXY(51, 27);
+		cout << "High Scores";
+		GotoXY(51, 28);
+		cout << "Intruction";
+		GotoXY(51, 29);
+		cout << "Exit";
+		SetColor(0, 7);
+	}
+	int displayMove(int &x, int &y, char key) {
+		if (key != 'W' && key != 'S') return y;
+		int xc = x, yc = y;
+		if (key == 'W' && y > 25) y--;
+		else if (key == 'S' && y < 29) y++;
+
+		GotoXY(xc, yc);
+		SetColor(0, 6);
+		if (yc == 25) cout << "    New Game";
+		else if (yc == 26) cout << "    Load Game";
+		else if (yc == 27) cout << "    High Scores";
+		else if (yc == 28) cout << "    Intruction";
+		else if (yc == 29) cout << "    Exit";
+		xc = x; yc = y;
+		GotoXY(x, y);
+		SetColor(15, 6);
+		if (y == 25) cout << ">> New Game ";
+		else if (y == 26) cout << ">> Load Game ";
+		else if (y == 27) cout << ">> High Scores ";
+		else if (y == 28) cout << ">> Intruction ";
+		else if (y == 29) cout << ">> Exit ";
+		SetColor(0, 7);
+		return y;
 	}
 };
 
