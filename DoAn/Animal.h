@@ -1,5 +1,5 @@
-#ifndef VEHICLE_H_
-#define VEHICLE_H_
+#ifndef ANIMAL_H_
+#define ANIMAL_H_
 
 #include <iostream>
 #include <Windows.h>
@@ -11,19 +11,19 @@
 
 using namespace std;
 
-class Vehicle{
+class Animal {
 private:
     int x;
     int y;
 public:
-    Vehicle() {
+    Animal() {
         this->x = 0;
         this->y = 0;
     }
-    Vehicle(screen PlayGround) {
+    Animal(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[0] + 1;
-        this->y = background[3] - 9;
+        this->y = background[3] - 40;
     }
 
     void GotoXY(int x, int y) {
@@ -43,13 +43,13 @@ public:
     }
     virtual void _show() {
         GotoXY(this->x, this->y);
-        cout << "  _______        ";
+        cout << "       ___" << endl;
         GotoXY(this->x, this->y + 1);
-        cout << " /|_||_\\ `.__   ";
+        cout << "      c '.'" << endl;
         GotoXY(this->x, this->y + 2);
-        cout << "(   _      _ _\\ ";
+        cout << "\\_    / \\\\ " << endl;
         GotoXY(this->x, this->y + 3);
-        cout << "=`-(_)-  -(_)-'  ";
+        cout << "   \\_|    |" << endl;
     }
     virtual void _destroy() {
         GotoXY(this->x, this->y);
@@ -71,15 +71,15 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << " " << endl;
     }
-    
+
     //void _move(screen PlayGround,int prelength, int length, int& poscar, bool direction, int speed) {
-    void _move(screen PlayGround, int& poscar, int speed, bool direction, int lengtVe) {
-       
+    void _move(screen PlayGround, int& posAnimal, int speed, bool direction, int lengtVe) {
+
         if (direction) {
             int* background = PlayGround._getinform();
-            int pos = (background[1] +1);
-            if (poscar < background[2] - lengtVe) {
-                
+            int pos = (background[0] + 1);
+            if (posAnimal < background[2] - lengtVe) {
+
                 this->_destroy();
                 this->increaseX();
                 this->_show();
@@ -89,17 +89,17 @@ public:
                 this->_destroy();
                 this->baseX(pos);
                 this->_show();
-                poscar = 1;
+                posAnimal = 1;
                 Sleep(speed);
             }
-            poscar++;
+            posAnimal++;
         }
         else
         {
             int* background = PlayGround._getinform();
             int pos = (background[2] - 25);
 
-            if (poscar < background[2] - 25) {
+            if (posAnimal < background[2] - 25) {
                 this->_destroy();
                 this->decreaseX();
                 this->_show();
@@ -109,29 +109,28 @@ public:
                 this->_destroy();
                 this->baseX(pos);
                 this->_show();
-                poscar = 1;
+                posAnimal = 1;
                 Sleep(20);
             }
-            poscar++;
+            posAnimal++;
         }
     }
 };
 
-class Car :public Vehicle {
-    
+class Monkey :public Animal {
 private:
     int x;
     int y;
-    
+
 public:
-    Car() {
+    Monkey() {
         this->x = 0;
         this->y = 0;
     }
-    Car(screen PlayGround) {
+    Monkey(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[0] + 1;
-        this->y = background[3] - 9;
+        this->y = background[3] - 30;
     }
 
     void GotoXY(int x, int y) {
@@ -152,13 +151,13 @@ public:
     }
     virtual void _show() {
         GotoXY(this->x, this->y);
-        cout << "  _______        ";
+        cout << "       ___" << endl;
         GotoXY(this->x, this->y + 1);
-        cout << " /|_||_\\ `.__   ";
+        cout << "      c '.'" << endl;
         GotoXY(this->x, this->y + 2);
-        cout << "(   _  V    _ _\\ ";
+        cout << "\\_    / \\\\ " << endl;
         GotoXY(this->x, this->y + 3);
-        cout << "=`-(_)-  -(_)-'  ";
+        cout << "   \\_|    |" << endl;
     }
     virtual void _destroy() {
         GotoXY(this->x, this->y);
@@ -183,21 +182,21 @@ public:
 
 };
 
-class Truck :public Vehicle {
+class Moose : public Animal {
 
 private:
     int x;
     int y;
 
 public:
-    Truck() {
+    Moose() {
         this->x = 0;
         this->y = 0;
     }
-    Truck(screen PlayGround) {
+    Moose(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[2] - 25;
-        this->y = background[3] - 18;
+        this->y = background[3] - 35;
     }
 
     void GotoXY(int x, int y) {
@@ -217,13 +216,13 @@ public:
     }
     virtual void _show() {
         GotoXY(this->x, this->y);
-        cout << "     ______________ ";
+        cout << "\\\\//" << endl;
         GotoXY(this->x, this->y + 1);
-        cout << "  __|              | ";
+        cout << ".''\\__" << endl;
         GotoXY(this->x, this->y + 2);
-        cout << "/___|   ___   __   | ";
+        cout << " | __ \\" << endl;
         GotoXY(this->x, this->y + 3);
-        cout << "--(_)- --     -(_)== ";
+        cout << " ||  ||" << endl;
     }
     virtual void _destroy() {
         GotoXY(this->x, this->y);
