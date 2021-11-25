@@ -66,7 +66,6 @@ public:
             this->_destroy();
             this->x = pos;
             this->_show();
-            i = 1;
             Sleep(speed);
         }
         poscar++;

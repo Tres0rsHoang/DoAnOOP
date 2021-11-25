@@ -6,34 +6,28 @@ using namespace std;
 
 void Thread_running(bool* Running, char* key, bool& newKey) {
 
-    screen Menu(66, 0, 100, 40);
-    screen PlayGround(0, 0, 66, 40);
-    screen Display(0, 0, 100, 40);
+    screen Menu(70, 0, 110, 40);
+    screen PlayGround(0, 0, 70, 40);
+    screen Display(0, 0, 110, 40);
 
     Display._format();
-
     Display._printFrame(6);
-
-    Menu._printFrame(6);
-    PlayGround._printFrame(6);
-
-    Player a(PlayGround);
-    a._show();
-
-    Car ca(PlayGround);
-    ca._show();
-
-    Truck tr(PlayGround);
-    tr._show();
-
-    int poscar = 1;
-    int Ghbac = 1;
+    Display._printDisplay(6);
 
 
+   
+    int display_x = 47, display_y = 25;
+    int choose = 25;
     while (*Running) {
-        Car._move(PlayGround, poscar);
         if (newKey) {
-            a._move(PlayGround, toupper(*key));
+            choose = Display.displayMove(display_x, display_y, toupper(*key));
+            if (*key == 13) {
+                if (choose == 25) {
+                    system("cls");
+                    Menu._printFrame(6);
+                    PlayGround._printFrame(6);
+                }
+            }
             newKey = false;
         }
     }
@@ -58,5 +52,7 @@ int main() {
     }
 
     char delay = _getch();
+
+   
     return 0;
 }
