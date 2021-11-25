@@ -52,22 +52,22 @@ public:
         GotoXY(this->x, this->y + 3);
         cout << "              " << endl;
     }
-    void _move(screen PlayGround,int prelength, int length, int& poscar, bool direction, int speed) {
+    void _move(screen PlayGround, int& poscar) {
         int* background = PlayGround._getinform();
         int pos = 0;
 
-        if (poscar < background[2] - length) {
+        if (poscar < background[2] - 16) {
             this->_destroy();
             this->x += 1;
             this->_show();
-            Sleep(speed);
+            Sleep(30);
         }
         else {
             this->_destroy();
             this->x = pos;
             this->_show();
-            i = 1;
-            Sleep(speed);
+            poscar = 1;
+            Sleep(30);
         }
         poscar++;
     }

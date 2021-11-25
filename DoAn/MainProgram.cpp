@@ -31,7 +31,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
 
 
     while (*Running) {
-        Car._move(PlayGround, poscar);
+        ca._move(PlayGround, poscar);
         if (newKey) {
             a._move(PlayGround, toupper(*key));
             newKey = false;
