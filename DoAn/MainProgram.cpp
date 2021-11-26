@@ -1,38 +1,30 @@
 ﻿#include "Vehicle.h"
-#include "Animal.h"
 #include "Player.h"
 #include "SetScreen.h"
+#include "Animal.h"
 
 using namespace std;
 
-void Thread_running(bool* Running, char* key, bool& newKey) 
-{
-    screen Menu(66, 0, 100, 40);
-    screen PlayGround(0, 0, 66, 40);
-    screen Display(0, 0, 100, 40);
+void Thread_running(bool* Running, char* key, bool& newKey) {
+
+    screen Menu(70, 0, 110, 40);
+    screen PlayGround(0, 0, 70, 40);
+    screen Display(0, 0, 110, 40);
 
     Display._format();
-
     Display._printFrame(6);
-
-    Menu._printFrame(6);
-    PlayGround._printFrame(6);
+    Display._printDisplay(6);
 
     Player a(PlayGround);
-    a._show();
-
-    // ===============================================================================================
+    // =======================================================================
     // PHUONG TIEN GIAO THONG
-    Car ca1(PlayGround);
-    Car ca2(PlayGround);
-    Car ca3(PlayGround);
+    Car ca1(PlayGround, 3, 1);
+    Car ca2(PlayGround, 2, 0);
 
-    Vehicle* b1 = new Car;
-    b1 = &ca1;
-    Vehicle* b2 = new Car;
-    b2 = &ca2;
-    Vehicle* b3 = new Car;
-    b3 = &ca3;
+    Vehicle* v1 = new Car;
+    v1 = &ca1;
+    Vehicle* v2 = new Car;
+    v2 = &ca2;
 
     Truck tr1(PlayGround);
     Truck tr2(PlayGround);
@@ -46,57 +38,59 @@ void Thread_running(bool* Running, char* key, bool& newKey)
 
     int postruck1 = 1;
     int postruck2 = 1;
-    // ===============================================================================================
-    // DONG VAT
-    Monkey khi1(PlayGround);
-    Monkey khi2(PlayGround);
-    Monkey khi3(PlayGround);
+    // =======================================================================
+     // DONG VAT
+    Monkey khi_1(PlayGround, 3, 1);
+    Monkey khi_2(PlayGround, 2, 0);
 
     Animal* ani_1 = new Monkey;
-    ani_1 = &khi1;
+    ani_1 = &khi_1;
     Animal* ani_2 = new Monkey;
-    ani_2 = &khi2;
-    Animal* ani_3 = new Monkey;
-    ani_3 = &khi3;
+    ani_2 = &khi_2;
 
-    Moose nai_1(PlayGround);
+    /*Moose nai_1(PlayGround , 3 , 1);
     Moose nai_2(PlayGround);
+
     Animal* moose_1 = new Moose;
     moose_1 = &nai_1;
     Animal* moose_2 = new Moose;
-    moose_2 = &nai_2;
+    moose_2 = &nai_2;*/
 
-    int posAni1 = 2;
-    int posAni2 = 2;
+    int posAni1 = 1;
+    int posAni2 = 1;
 
-    int posMoose1 = 2;
-    int posMoose2 = 2;
-    // ===============================================================================================
+    /*int posMoose_1 = 1;
+    int posMoose_2 = 1;*/
+    // =======================================================================
+    int display_x = 47, display_y = 25;
+    int choose = 25;
+    bool RunningGame = false;
     while (*Running) {
-        b1->_move(PlayGround, poscar1, 50, 1, 20);
-        if (poscar1 >= 31) {
-            b2->_move(PlayGround, poscar2, 50, 1, 20);
-        }
-        c1->_move(PlayGround, postruck1, 50, 0, 20);
-        if (poscar1 >= 31) {
-            c2->_move(PlayGround, postruck2, 50, 0, 20);
-        }
-        // =========================================================
-        ani_1->_move(PlayGround, posAni1, 50, 1, 20);
-        if (posAni1 >= 31) {
-            ani_2->_move(PlayGround, posAni2, 50, 1, 20);
-        }
-        moose_1->_move(PlayGround, posMoose1, 50, 0, 20);
-        if (posAni1 >= 31) {
-            moose_2->_move(PlayGround, posMoose2, 50, 0, 20);
-        }
-         // =========================================================
-        if (newKey) {
-            a._move(PlayGround, toupper(*key));
+        if (newKey && !RunningGame) {
+            choose = Display.displayMove(display_x, display_y, toupper(*key));
+            if (*key == 13) {
+                if (choose == 25) {
+                    system("cls");
+                    Menu._printFrame(6);
+                    PlayGround._printFrame(6);
+                    a._show();
+                    RunningGame = true;
+                }
+            }
             newKey = false;
         }
+        if (RunningGame) {
+            v1->_move(PlayGround, 50, 16);
+            v2->_move(PlayGround, 50, 16);
+            ani_1->_move(PlayGround, 50, 15);
+            ani_2->_move(PlayGround, 50, 15);
+            /*moose_1->_move(PlayGround, 20, 16);*/
+            if (newKey) {
+                a._move(PlayGround, toupper(*key));
+                newKey = false;
+            }
+        }
     }
-   
 }
 
 int main() {
@@ -105,6 +99,7 @@ int main() {
     bool newKey = true;
 
     thread t1(Thread_running, run, key, ref(newKey));
+
     while (1) {
         *key = _getch();
         newKey = true;
@@ -117,5 +112,7 @@ int main() {
     }
 
     char delay = _getch();
+
+
     return 0;
 }
