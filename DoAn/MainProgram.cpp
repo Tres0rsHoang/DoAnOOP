@@ -19,15 +19,16 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Player a(PlayGround);
 
     Car ca1(PlayGround, 3, 1);
-    Car ca2(PlayGround, 2, 0);
+    Car ca2(PlayGround, 4, 0);
+    Truck tr1(PlayGround, 2, 1);
+    Truck tr2(PlayGround, 5, 0);
 
     vector<Vehicle*> listCar;
-    listCar.resize(3, new Car);
+    listCar.resize(4, new Car);
     listCar[0] = &ca1;
     listCar[1] = &ca2;
-
-    Truck tr1(PlayGround, 4, 1);
     listCar[2] = &tr1;
+    listCar[3] = &tr2;
 
     int poscar1 = 1;
     int poscar2 = 1;
@@ -65,7 +66,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
         }
         if (RunningGame) {
             
-            for (int i = 0; i <= 2;i++) {
+            for (int i = 0; i <= 3;i++) {
                 if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10);
                 else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100);
             }

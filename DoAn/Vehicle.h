@@ -131,7 +131,6 @@ public:
         }
     }
 };
-
 class Car:public Vehicle {
 private:
     int x;
@@ -219,7 +218,6 @@ public:
         cout << "                " << endl;
     }
 };
-
 class Truck:public Vehicle {
 private:
     int x;
