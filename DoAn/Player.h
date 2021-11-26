@@ -40,7 +40,7 @@ public:
         GotoXY(this->x, this->y + 2);
         cout << "/ \\";
         unsigned int milisecond = 1000;
-        Sleep(50);
+        //Sleep(50);
         GotoXY(this->x, this->y);
         cout << " o ";
         GotoXY(this->x, this->y + 1);

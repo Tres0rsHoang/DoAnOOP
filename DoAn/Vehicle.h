@@ -93,7 +93,7 @@ public:
             }
             this->SetX(this->GetX() + 1);
         }
-        else {
+        else{
             if (this->GetX() > 1) {
                 this->_showReverse();
                 Sleep(speed);
@@ -148,7 +148,7 @@ public:
     }
 
     virtual int GetX() {
-        return this->x;
+        return this -> x;
     }
     virtual void SetX(int x) {
         this->x = x;
