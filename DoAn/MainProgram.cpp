@@ -1,6 +1,7 @@
 ﻿#include "Vehicle.h"
 #include "Player.h"
 #include "SetScreen.h"
+#include "Animal.h"
 #include <ctime>
 #include <vector>
 
@@ -42,6 +43,17 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     int postruck1 = 1;
     int postruck2 = 1;
 
+    Monkey khi_1(PlayGround, 3, 1);
+    Monkey khi_2(PlayGround, 2, 0);
+
+    Animal* ani_1 = new Monkey;
+    ani_1 = &khi_1;
+    Animal* ani_2 = new Monkey;
+    ani_2 = &khi_2;
+
+    int posAni1 = 1;
+    int posAni2 = 1;
+
     int display_x = 47, display_y = 25;
     int choose = 25;
     bool RunningGame = false;
@@ -59,13 +71,11 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             }
             newKey = false;
         }
-        int* carposition = new int[4];
         if (RunningGame) {
             for (int i = 0; i <= 2;i++) {
                 if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10, 16);
                 else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100, 16);
             }
-            
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
                 newKey = false;
@@ -96,6 +106,6 @@ int main() {
 
     char delay = _getch();
 
-   
+
     return 0;
 }
