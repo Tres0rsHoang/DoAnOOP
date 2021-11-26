@@ -8,7 +8,6 @@
 using namespace std;
 
 void Thread_running(bool* Running, char* key, bool& newKey) {
-
     screen Menu(70, 0, 110, 40);
     screen PlayGround(0, 0, 70, 40);
     screen Display(0, 0, 110, 40);
@@ -21,21 +20,14 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
 
     Car ca1(PlayGround, 3, 1);
     Car ca2(PlayGround, 2, 0);
-    Car ca3(PlayGround, 4, 0);
 
     vector<Vehicle*> listCar;
     listCar.resize(3, new Car);
     listCar[0] = &ca1;
     listCar[1] = &ca2;
-    listCar[2] = &ca3;
 
-
-    Truck tr1(PlayGround);
-    Truck tr2(PlayGround);
-    Vehicle* c1 = new Truck;
-    c1 = &tr1;
-    Vehicle* c2 = new Truck;
-    c2 = &tr2;
+    Truck tr1(PlayGround, 4, 1);
+    listCar[2] = &tr1;
 
     int poscar1 = 1;
     int poscar2 = 1;
@@ -72,9 +64,10 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             newKey = false;
         }
         if (RunningGame) {
+            
             for (int i = 0; i <= 2;i++) {
-                if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10, 16);
-                else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100, 16);
+                if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10);
+                else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100);
             }
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
