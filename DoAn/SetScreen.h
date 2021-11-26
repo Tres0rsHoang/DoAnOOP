@@ -145,7 +145,7 @@ public:
 		cout << "MENU";
 		GotoXY(47, 25);
 		SetColor(15, 6);
-		cout << ">> New Game";
+		cout << ">> New Game ";
 		SetColor(0, 6);
 		GotoXY(51, 26);
 		cout << "Load Game";
