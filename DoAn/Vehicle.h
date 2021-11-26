@@ -110,7 +110,6 @@ public:
 };
 
 class Car :public Vehicle {
-
 private:
     int x;
     int y;

@@ -112,7 +112,5 @@ int main() {
     }
 
     char delay = _getch();
-
-
     return 0;
 }
