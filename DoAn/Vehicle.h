@@ -42,25 +42,28 @@ public:
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
     virtual void _show() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "  _______        ";
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << " /|_||_\\ `.__   ";
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << "(   _      _ _\\ ";
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "=`-(_)-  -(_)-'  ";
+        if (!this->direction) {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "  _______        ";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << " /|_||_\\ `.__   ";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "(   _      _ _\\ ";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "=`-(_)-  -(_)-'  ";
+        }
+        else {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "        _______  ";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << "   __.` /_||_|\\ ";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << " /_ _      _   )";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "  '-(_)-  -(_)-`=";
+        }
     }
-    virtual void _showReverse() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "        _______  ";
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "   __.` /_||_|\\ ";
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << " /_ _      _   )";
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "  '-(_)-  -(_)-`=";
-    }
+
     virtual void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                 ";
@@ -81,13 +84,19 @@ public:
     void _move(screen PlayGround, int speed, int lengtVe) {
         int* background = PlayGround._getinform();
         if (!this->GetDirection()) {
-            if (this->GetX() < background[2] - lengtVe) {
+            if (this->GetX() < background[2] - lengtVe - 1) {
                 this->_show();
                 Sleep(speed);
                 this->_destroy();
                 this->SetX(this->GetX() + 1);
+                this->_show();
+                GotoXY(this->GetX(), this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX(), this->GetY() + 3);
+                cout << " ";
             }
             else {
+                this->_destroy();
                 this->SetX(background[0] + 1);
                 Sleep(speed);
             }
@@ -95,12 +104,22 @@ public:
         }
         else{
             if (this->GetX() > 1) {
-                this->_showReverse();
+                this->_show();
                 Sleep(speed);
                 this->_destroy();
                 this->SetX(this->GetX() - 1);
+                this->_show();
+                GotoXY(this->GetX() + 17, this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX() + 17, this->GetY() + 3);
+                cout << " ";
             }
             else {
+                this->_destroy();
+                GotoXY(this->GetX() + 16, this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX() + 16, this->GetY() + 3);
+                cout << " ";
                 this->SetX(background[2] - lengtVe);
                 Sleep(speed);
             }
@@ -109,8 +128,7 @@ public:
     }
 };
 
-class Car :public Vehicle {
-    
+class Car:public Vehicle {
 private:
     int x;
     int y;
@@ -158,25 +176,28 @@ public:
     virtual bool GetDirection() { return this->direction; }
 
     virtual void _show() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "  _______        ";
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << " /|_||_\\ `.__   ";
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << "(   _  V    _ _\\ ";
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "=`-(_)-  -(_)-'  ";
+        if (!this->direction) {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "  _______        ";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << " /|_||_\\ `.__   ";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "(   _  V    _ _\\ ";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "=`-(_)-  -(_)-'  ";
+        }
+        else {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "       _______  ";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << "   __.` /_||_|\\ ";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << " /_ _   V   _  )";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << " '-(_)-  -(_)-`=";
+        }
     }
-    virtual void _showReverse() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "       _______  ";
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "   __.` /_||_|\\ ";
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << " /_ _   V   _  )";
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << " '-(_)-  -(_)-`=";
-    }
+   
     virtual void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                ";
@@ -189,8 +210,7 @@ public:
     }
 };
 
-class Truck :public Vehicle {
-
+class Truck:public Vehicle {
 private:
     int x;
     int y;

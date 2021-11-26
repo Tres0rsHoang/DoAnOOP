@@ -1,6 +1,8 @@
 ﻿#include "Vehicle.h"
 #include "Player.h"
 #include "SetScreen.h"
+#include <ctime>
+#include <vector>
 
 using namespace std;
 
@@ -18,11 +20,14 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
 
     Car ca1(PlayGround, 3, 1);
     Car ca2(PlayGround, 2, 0);
+    Car ca3(PlayGround, 4, 0);
 
-    Vehicle* v1 = new Car;
-    v1 = &ca1;
-    Vehicle* v2 = new Car;
-    v2 = &ca2;
+    vector<Vehicle*> listCar;
+    listCar.resize(3, new Car);
+    listCar[0] = &ca1;
+    listCar[1] = &ca2;
+    listCar[2] = &ca3;
+
 
     Truck tr1(PlayGround);
     Truck tr2(PlayGround);
@@ -54,18 +59,24 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             }
             newKey = false;
         }
+        int* carposition = new int[4];
         if (RunningGame) {
-            v1->_move(PlayGround, 10, 16);
-            v2->_move(PlayGround, 10, 16);
+            for (int i = 0; i <= 2;i++) {
+                if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10, 16);
+                else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100, 16);
+            }
+            
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
                 newKey = false;
             }
+
         }
     }
 }
 
 int main() {
+    srand(time(NULL));
     bool* run = new bool; *run = true;
     char* key = new char; *key = ' ';
     bool newKey = true;
