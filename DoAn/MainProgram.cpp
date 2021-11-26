@@ -85,8 +85,6 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             ani_1->_move(PlayGround, 50, 15);
             ani_2->_move(PlayGround, 50, 15);
             /*moose_1->_move(PlayGround, 20, 16);*/
-            v1->_move(PlayGround, 10, 16);
-            v2->_move(PlayGround, 10, 16);
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
                 newKey = false;
