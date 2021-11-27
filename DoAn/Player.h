@@ -1,4 +1,4 @@
-#ifndef PLAYER_H_
+﻿#ifndef PLAYER_H_
 #define PLAYER_H_
 
 #include <iostream>
@@ -12,9 +12,12 @@
 using namespace std;
 
 class Player {
+
 private:
     int x;
     int y;
+    int point = 0 ;
+
 public:
     Player() {
         this->x = 0;
@@ -32,6 +35,7 @@ public:
         coord.Y = y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
+
     void _show() {
         GotoXY(this->x, this->y);
         cout << "\\o/";
@@ -56,6 +60,52 @@ public:
         GotoXY(this->x, this->y + 2);
         cout << "   " << endl;
     }
+    int getY() {
+        return this->y;
+    }
+    int getPoint() {
+        return this->point;
+    }
+    void showPoint() {
+        cout << this->point;
+    }
+    void setPoint(int a) {
+        this->point = a;
+    }
+    void checkPoint(char choose) {
+        if (choose == 'W') {
+            switch (this->y)
+            {
+            case 29:
+            case 25:
+            case 21:
+            case 17:
+            case 13:
+            case 9:
+            case 5:
+                this->point += 15;
+                break;
+            default:
+                break;
+            }
+        }
+        else {
+            switch (this->y)
+            {
+            case 30:
+            case 26:
+            case 22:
+            case 18:
+            case 14:
+            case 10:
+            case 6:
+                this->point -= 15;
+                break;
+            default:
+                break;
+            }
+        }
+    }
     void _move(screen PlayGround, char choose) {
         int* background = PlayGround._getinform();
         switch (choose) {
@@ -65,6 +115,7 @@ public:
                 this->y -= 1;
                 this->_show();
             }
+            this->checkPoint('W');
             break;
         }
         case 'S': {
@@ -73,6 +124,7 @@ public:
                 this->y += 1;
                 this->_show();
             }
+            this->checkPoint('S');
             break;
         }
         case 'D': {

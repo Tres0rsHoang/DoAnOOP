@@ -7,6 +7,14 @@
 
 using namespace std;
 
+
+void GotoXY(int x, int y) {
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 void Thread_running(bool* Running, char* key, bool& newKey) {
     screen Menu(70, 0, 110, 40);
     screen PlayGround(0, 0, 70, 40);
@@ -16,36 +24,32 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Display._printFrame(6);
     Display._printDisplay(6);
 
-    Player a(PlayGround);
 
-    Car ca1(PlayGround, 3, 1);
-    Car ca2(PlayGround, 4, 0);
-    Truck tr1(PlayGround, 2, 1);
-    Truck tr2(PlayGround, 5, 0);
+
+
+    Player a(PlayGround);
+    Car ca1(PlayGround, 2, 1);
+    Car ca2(PlayGround, 3, 0);
+    Car ca3(PlayGround, 5, 1);
+    Car ca4 (PlayGround, 6, 0);
+    Car ca5 (PlayGround, 7, 1);
+    Truck tr1(PlayGround, 1, 1);
+    Truck tr2(PlayGround, 4, 0);
 
     vector<Vehicle*> listCar;
-    listCar.resize(4, new Car);
+    listCar.resize(7, new Car);
     listCar[0] = &ca1;
     listCar[1] = &ca2;
     listCar[2] = &tr1;
     listCar[3] = &tr2;
-
-    int poscar1 = 1;
-    int poscar2 = 1;
-
-    int postruck1 = 1;
-    int postruck2 = 1;
+    listCar[4] = &ca3;
+    listCar[5] = &ca4;
+    listCar[6] = &ca5;
 
     Monkey khi_1(PlayGround, 3, 1);
     Monkey khi_2(PlayGround, 2, 0);
 
-    Animal* ani_1 = new Monkey;
-    ani_1 = &khi_1;
-    Animal* ani_2 = new Monkey;
-    ani_2 = &khi_2;
-
-    int posAni1 = 1;
-    int posAni2 = 1;
+    int temp;
 
     int display_x = 47, display_y = 25;
     int choose = 25;
@@ -65,13 +69,13 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             newKey = false;
         }
         if (RunningGame) {
-            
-            for (int i = 0; i <= 3;i++) {
+            for (int i = 0; i <= 6; i++) {
                 if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10);
                 else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100);
             }
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
+                a.showPoint();
                 newKey = false;
             }
 
