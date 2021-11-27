@@ -1,3 +1,4 @@
+
 #ifndef VEHICLE_H_
 #define VEHICLE_H_
 
@@ -106,7 +107,7 @@ public:
             }
             this->SetX(this->GetX() + 1);
         }
-        else{
+        else {
             if (this->GetX() > 1) {
                 this->_show();
                 Sleep(speed);
@@ -131,7 +132,7 @@ public:
         }
     }
 };
-class Car:public Vehicle {
+class Car :public Vehicle {
 private:
     int x;
     int y;
@@ -147,7 +148,7 @@ public:
     Car(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[0] + 1;
-        this->y = background[3] - 9;
+        this->y = background[3] - 5;
         this->direction = 0;
         this->length = 16;
     }
@@ -155,13 +156,13 @@ public:
         int* background = PlayGround._getinform();
         if (!right) {
             this->x = background[0] + 1;
-            this->y = (background[3] - 8 - 4 * lane);
+            this->y = (background[3] - 5 - 4 * lane);
             this->direction = 0;
             this->length = 16;
             return;
         }
         this->x = background[2] - 17;
-        this->y = (background[3] - 8 - 4 * lane);
+        this->y = (background[3] - 5 - 4 * lane);
         this->direction = 1;
         this->length = 16;
     }
@@ -174,7 +175,7 @@ public:
     }
 
     virtual int GetX() {
-        return this -> x;
+        return this->x;
     }
     virtual void SetX(int x) {
         this->x = x;
@@ -206,7 +207,7 @@ public:
             cout << " '-(_)-  -(_)-`=";
         }
     }
-   
+
     virtual void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                ";
@@ -218,7 +219,8 @@ public:
         cout << "                " << endl;
     }
 };
-class Truck:public Vehicle {
+
+class Truck :public Vehicle {
 private:
     int x;
     int y;
@@ -234,7 +236,7 @@ public:
     Truck(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[0] + 1;
-        this->y = background[3] - 9;
+        this->y = background[3] - 8;
         this->direction = 0;
         this->length = 20;
     }
@@ -242,13 +244,13 @@ public:
         int* background = PlayGround._getinform();
         if (!left) {
             this->x = background[0] + 1;
-            this->y = (background[3] - 8 - 4 * lane);
+            this->y = (background[3] - 5 - 4 * lane);
             this->direction = 1;
             this->length = 20;
             return;
         }
         this->x = background[2] - 21;
-        this->y = (background[3] - 8 - 4 * lane);
+        this->y = (background[3] - 5 - 4 * lane);
         this->direction = 0;
         this->length = 21;
     }

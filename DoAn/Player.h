@@ -76,6 +76,7 @@ public:
         if (choose == 'W') {
             switch (this->y)
             {
+            case 33:
             case 29:
             case 25:
             case 21:
@@ -92,6 +93,7 @@ public:
         else {
             switch (this->y)
             {
+            case 34:
             case 30:
             case 26:
             case 22:

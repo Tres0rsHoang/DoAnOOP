@@ -24,9 +24,6 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Display._printFrame(6);
     Display._printDisplay(6);
 
-
-
-
     Player a(PlayGround);
     Car ca1(PlayGround, 2, 1);
     Car ca2(PlayGround, 3, 0);
@@ -49,8 +46,19 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Monkey khi_1(PlayGround, 3, 1);
     Monkey khi_2(PlayGround, 2, 0);
 
-    int temp;
 
+   /* Monkey khi_1(PlayGround, 2, 1);
+    Monkey khi_2(PlayGround, 3, 0);
+    Moose nai_1(PlayGround, 1, 1);
+    Moose nai_2(PlayGround, 4, 0);
+
+    vector<Animal*> listAnimal;
+    listAnimal.resize(4, new Monkey);
+    listAnimal[0] = &khi_1;
+    listAnimal[1] = &khi_2;
+    listAnimal[2] = &nai_1;
+    listAnimal[2] = &nai_2;
+    */
     int display_x = 47, display_y = 25;
     int choose = 25;
     bool RunningGame = false;
@@ -71,11 +79,14 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
         if (RunningGame) {
             for (int i = 0; i <= 6; i++) {
                 if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10);
-                else if (rand() % 10 == 1) listCar[i]->_move(PlayGround, 100);
+                else if (rand() % 10 == 1) {
+                    listCar[i]->_move(PlayGround, 20);
+                    /*listAnimal[i]->_move(PlayGround, 50);*/
+                }
             }
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
-                a.showPoint();
+                //a.showPoint();
                 newKey = false;
             }
 
@@ -103,7 +114,5 @@ int main() {
     }
 
     char delay = _getch();
-
-
     return 0;
 }

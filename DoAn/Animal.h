@@ -15,12 +15,14 @@ class Animal {
 private:
     int x;
     int y;
+    int length;
     bool direction;
 public:
     Animal() {
         this->x = 0;
         this->y = 0;
         this->direction = 0;
+        this->length = 16;
     }
     Animal(screen PlayGround, int lane, bool right) {
         int* background = PlayGround._getinform();
@@ -28,11 +30,13 @@ public:
             this->x = background[0] + 1;
             this->y = (background[3] - 8 - 4 * lane);
             this->direction = 0;
+            this->length = 16;
             return;
         }
-        this->x = background[2] - 1;
+        this->x = background[2] - 21;
         this->y = (background[3] - 8 - 4 * lane);
         this->direction = 1;
+        this->length = 16;
     }
 
     void GotoXY(int x, int y) {
@@ -42,25 +46,28 @@ public:
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
     virtual void _show() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "       ___" << endl;
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "      c '.'/" << endl;
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << "\\_    / \\\\ " << endl;
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "   \\_|   |" << endl;
+        if (!this->direction) {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "       ___" << endl;
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << "      c '.'/" << endl;
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "\\_    / \\\\ " << endl;
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "   \\_|   |" << endl;
+        }
+        else {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "__" << endl;
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << "'.'}" << endl;
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "//\\   _/" << endl;
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "|  |_/" << endl;
+        }
     }
-    virtual void _showReverse() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "__" << endl;
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "'.'}" << endl;
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << "//\\   _/" << endl;
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "|  |_/" << endl;
-    }
+
     virtual void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                 ";
@@ -77,17 +84,24 @@ public:
     virtual int GetY() { return this->y; }
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
+    virtual int GetLength() { return this->length; }
 
-    void _move(screen PlayGround, int speed, int lengtVe) {
+    void _move(screen PlayGround, int speed) {
         int* background = PlayGround._getinform();
         if (!this->GetDirection()) {
-            if (this->GetX() < background[2] - lengtVe) {
+            if (this->GetX() < background[2] - this->GetLength() - 1) {
                 this->_show();
                 Sleep(speed);
                 this->_destroy();
                 this->SetX(this->GetX() + 1);
+                this->_show();
+                GotoXY(this->GetX(), this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX(), this->GetY() + 3);
+                cout << " ";
             }
             else {
+                this->_destroy();
                 this->SetX(background[0] + 1);
                 Sleep(speed);
             }
@@ -95,13 +109,23 @@ public:
         }
         else {
             if (this->GetX() > 1) {
-                this->_showReverse();
+                this->_show();
                 Sleep(speed);
                 this->_destroy();
                 this->SetX(this->GetX() - 1);
+                this->_show();
+                GotoXY(this->GetX() + this->GetLength() + 1, this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX() + this->GetLength() + 1, this->GetY() + 3);
+                cout << " ";
             }
             else {
-                this->SetX(background[2] - lengtVe);
+                this->_destroy();
+                GotoXY(this->GetX() + this->GetLength(), this->GetY() + 2);
+                cout << " ";
+                GotoXY(this->GetX() + this->GetLength(), this->GetY() + 3);
+                cout << " ";
+                this->SetX(background[2] - this->GetLength());
                 Sleep(speed);
             }
             this->SetX(this->GetX() - 1);
@@ -114,29 +138,34 @@ private:
     int x;
     int y;
     bool direction;
+    int length;
 public:
     Monkey() {
         this->x = 0;
         this->y = 0;
         this->direction = 0;
+        this->length = 10;
     }
     Monkey(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = background[0] + 1;
-        this->y = background[3] - 25;
+        this->y = background[3] - 9;
         this->direction = 0;
+        this->length = 10;
     }
     Monkey(screen PlayGround, int lane, bool right) {
         int* background = PlayGround._getinform();
         if (!right) {
             this->x = background[0] + 1;
-            this->y = (background[3] - 25 - 4 * lane);
+            this->y = (background[3] - 18 - 4 * lane);
             this->direction = 0;
+            this->length = 10;
             return;
         }
         this->x = background[2] - 17;
-        this->y = (background[3] - 25 - 4 * lane);
+        this->y = (background[3] - 18 - 4 * lane);
         this->direction = 1;
+        this->length = 10;
     }
 
     void GotoXY(int x, int y) {
@@ -155,69 +184,75 @@ public:
     virtual int GetY() { return this->y; }
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
+    virtual int GetLength() { return this->length; }
 
     virtual void _show() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << "       ___" << endl;
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "      c '.')" << endl;
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << "\\_    / \\\\ " << endl;
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << "   \\_|   |" << endl;
-    }
-    virtual void _showReverse() {
-        GotoXY(this->GetX(), this->GetY());
-        cout << " __";
-        GotoXY(this->GetX(), this->GetY() + 1);
-        cout << "{'.'}";
-        GotoXY(this->GetX(), this->GetY() + 2);
-        cout << " //\\   _/";
-        GotoXY(this->GetX(), this->GetY() + 3);
-        cout << " |  |_/";
+        if (!this->direction) {
+            GotoXY(this->GetX(), this->GetY());
+            cout << "       ___";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << "      c '.'";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "\\_    / \\\\ ";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "   \\_|   |";
+        }
+        else{
+            GotoXY(this->GetX(), this->GetY());
+            cout << "  __";
+            GotoXY(this->GetX(), this->GetY() + 1);
+            cout << " {'.'}";
+            GotoXY(this->GetX(), this->GetY() + 2);
+            cout << "  //\\   _/";
+            GotoXY(this->GetX(), this->GetY() + 3);
+            cout << "  |  |_/";
+        }
     }
     virtual void _destroy() {
         GotoXY(this->x, this->y);
-        cout << "                ";
+        cout << "         ";
         GotoXY(this->x, this->y + 1);
-        cout << "                " << endl;
+        cout << "          " << endl;
         GotoXY(this->x, this->y + 2);
-        cout << "                " << endl;
+        cout << "          " << endl;
         GotoXY(this->x, this->y + 3);
-        cout << "                " << endl;
+        cout << "          " << endl;
     }
 };
-
 class Moose : public Animal {
 private:
     int x;
     int y;
     bool direction;
+    int length;
 public:
     Moose() {
         this->x = 0;
         this->y = 0;
         this->direction = 0;
+        this->length = 10;
     }
     Moose(screen PlayGround) {
         int* background = PlayGround._getinform();
-        this->x = background[2] - 25;
-        this->y = background[3] - 20;
+        this->x = background[0] + 1;
+        this->y = background[3] - 9;
         this->direction = 0;
+        this->length = 10;
     }
-    Moose(screen PlayGround, int lane, bool right) {
+    Moose(screen PlayGround, int lane, bool left) {
         int* background = PlayGround._getinform();
-        if (!right) {
+        if (!left) {
             this->x = background[0] + 1;
             this->y = (background[3] - 20 - 4 * lane);
             this->direction = 0;
+            this->length = 10;
             return;
         }
         this->x = background[2] - 17;
         this->y = (background[3] - 25 - 4 * lane);
-        this->direction = 1;
+        this->direction = 0;
+        this->length = 10;
     }
-
     void GotoXY(int x, int y) {
         COORD coord;
         coord.X = x;
@@ -234,36 +269,39 @@ public:
     virtual int GetY() { return this->y; }
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
+    virtual int GetLength() { return this->length; }
 
     virtual void _show() {
-        GotoXY(this->x, this->y);
-        cout << "=\\\\//=" << endl;
-        GotoXY(this->x, this->y + 1);
-        cout << " .''\\__" << endl;
-        GotoXY(this->x, this->y + 2);
-        cout << "  | __ \\" << endl;
-        GotoXY(this->x, this->y + 3);
-        cout << "  ||  ||" << endl;
+        if (!this->direction) {
+            GotoXY(this->x, this->y);
+            cout << "   =\\\\_//=";
+            GotoXY(this->x, this->y + 1);
+            cout << "  __/ ''.";
+            GotoXY(this->x, this->y + 2);
+            cout << " / __ |` ";
+            GotoXY(this->x, this->y + 3);
+            cout << " ||  ||  ";
+        }
+        else {
+            GotoXY(this->x, this->y);
+            cout << "=\\\\//=" << endl;
+            GotoXY(this->x, this->y + 1);
+            cout << " .''\\__" << endl;
+            GotoXY(this->x, this->y + 2);
+            cout << "  | __ \\" << endl;
+            GotoXY(this->x, this->y + 3);
+            cout << "  ||  ||" << endl;
+        }
     }
     virtual void _destroy() {
         GotoXY(this->x, this->y);
-        cout << "                        ";
+        cout << "         ";
         GotoXY(this->x, this->y + 1);
-        cout << "                        " << endl;
+        cout << "         " << endl;
         GotoXY(this->x, this->y + 2);
-        cout << "                        " << endl;
+        cout << "         " << endl;
         GotoXY(this->x, this->y + 3);
-        cout << "                        " << endl;
-    }
-    virtual void _destroyCol() {
-        GotoXY(this->x, this->y);
-        cout << " ";
-        GotoXY(this->x, this->y + 1);
-        cout << " " << endl;
-        GotoXY(this->x, this->y + 2);
-        cout << " " << endl;
-        GotoXY(this->x, this->y + 3);
-        cout << " " << endl;
+        cout << "         " << endl;
     }
 };
 
