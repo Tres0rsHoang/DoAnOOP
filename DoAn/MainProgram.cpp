@@ -42,7 +42,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     listAnimal[1] = &khi_2;
     listAnimal[2] = &nai_1;
     listAnimal[2] = &nai_2;
- 
+
     // ============================================================================
     int display_x = 47, display_y = 25;
     int choose = 25;
