@@ -58,7 +58,6 @@ public:
     }
     void _move(screen PlayGround, char choose) {
         int* background = PlayGround._getinform();
-
         switch (choose) {
         case 'W': {
             if (this->y - 1 < background[3] && this->y - 1 > background[1]) {
@@ -109,6 +108,7 @@ public:
         }
 
     }
+
 };
 
 #endif
