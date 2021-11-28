@@ -25,7 +25,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     Display._printDisplay(6);
 
     Player a(PlayGround);
-    Car ca1(PlayGround, 2, 1);
+    /*Car ca1(PlayGround, 2, 1);
     Car ca2(PlayGround, 3, 0);
     Car ca3(PlayGround, 5, 1);
     Car ca4 (PlayGround, 6, 0);
@@ -41,30 +41,30 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     listCar[3] = &tr2;
     listCar[4] = &ca3;
     listCar[5] = &ca4;
-    listCar[6] = &ca5;
+    listCar[6] = &ca5;*/
 
-    Monkey khi_1(PlayGround, 3, 1);
-    Monkey khi_2(PlayGround, 2, 0);
-
-
-   /* Monkey khi_1(PlayGround, 2, 1);
+    Monkey khi_1(PlayGround, 5, 1);
     Monkey khi_2(PlayGround, 3, 0);
     Moose nai_1(PlayGround, 1, 1);
-    Moose nai_2(PlayGround, 4, 0);
+    Moose nai_2(PlayGround, 2, 0);
 
     vector<Animal*> listAnimal;
     listAnimal.resize(4, new Monkey);
     listAnimal[0] = &khi_1;
     listAnimal[1] = &khi_2;
     listAnimal[2] = &nai_1;
-    listAnimal[2] = &nai_2;
-    */
+    listAnimal[3] = &nai_2;
+    
     int display_x = 47, display_y = 25;
     int choose = 25;
     bool RunningGame = false;
-    int** carPos = new int*[7];
+    /*int** carPos = new int*[7];
     for (int i = 0;i < 7;i++)
-        carPos[i] = new int[4];
+        carPos[i] = new int[4];*/
+
+    int** animalPos = new int* [4];
+    for (int i = 0; i < 4; i++)
+        animalPos[i] = new int[4];
   
     while (*Running) {
         if (newKey && !RunningGame) {
@@ -74,13 +74,16 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
                     system("cls");
                     Menu._printFrame(6);
                     PlayGround._printFrame(6);
-                    a._show();                 
+                    a._show(); 
+                    //animalPos[3] = listAnimal[3]->_move(PlayGround, 100);
                     RunningGame = true;
                 }
             }
             newKey = false;
         }
-        if (RunningGame) {
+
+        //Test va cham xe
+        /*if (RunningGame) {
             for (int i = 0; i <= 6; i++) {
                 if (rand() % 10 == 1) {
                     carPos[i] = listCar[i]->_move(PlayGround, 100);
@@ -92,6 +95,20 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             }
             GotoXY(75, 20);
             cout << a._checkCollision(carPos, 7);
+        }*/
+        //Test va cham dong vat
+        if (RunningGame) {
+            for (int i = 0; i <= 3; i++) {
+                if (rand() % 10 == 1) {
+                    animalPos[i] = listAnimal[i]->_move(PlayGround, 100);
+                }
+            }
+            if (newKey) {
+                a._move(PlayGround, toupper(*key));
+                newKey = false;
+            }
+            GotoXY(75, 20);
+            cout << a._checkCollision(animalPos, 4);
         }
     }
 }
