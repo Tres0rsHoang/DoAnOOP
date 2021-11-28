@@ -86,8 +86,9 @@ public:
     virtual bool GetDirection() { return this->direction; }
     virtual int GetLength() { return this->length; }
 
-    void _move(screen PlayGround, int speed) {
+    int* _move(screen PlayGround, int speed) {
         int* background = PlayGround._getinform();
+        int* pos = new int[4];
         if (!this->GetDirection()) {
             if (this->GetX() < background[2] - this->GetLength() - 1) {
                 this->_show();

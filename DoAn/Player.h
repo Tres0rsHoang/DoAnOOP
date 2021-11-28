@@ -160,9 +160,20 @@ public:
             GotoXY(this->x + 3, this->y);
             cout << "             ";
         }
-
     }
-
+    bool _checkCollision(int** carPos, int size) {
+        int* pos = new int[4];
+        pos[0] = this->x;
+        pos[1] = this->y;
+        pos[2] = pos[0] + 2;
+        pos[3] = pos[1] + 2;
+        for (int i = 0;i < size;i++) {
+            if (pos[0] <= carPos[i][2] && pos[2] >= carPos[i][0] && 
+                pos[3] >= carPos[i][1] && pos[1] <= carPos[i][3])
+                return 1;
+        }
+        return 0;
+    }
 };
 
 #endif

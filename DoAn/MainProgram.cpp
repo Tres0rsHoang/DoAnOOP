@@ -35,7 +35,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
 
     vector<Vehicle*> listCar;
     listCar.resize(7, new Car);
-    listCar[0] = &ca1;
+    listCar[0] = &tr1;
     listCar[1] = &ca2;
     listCar[2] = &tr1;
     listCar[3] = &tr2;
@@ -62,6 +62,10 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     int display_x = 47, display_y = 25;
     int choose = 25;
     bool RunningGame = false;
+    int** carPos = new int*[7];
+    for (int i = 0;i < 7;i++)
+        carPos[i] = new int[4];
+  
     while (*Running) {
         if (newKey && !RunningGame) {
             choose = Display.displayMove(display_x, display_y, toupper(*key));
@@ -70,7 +74,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
                     system("cls");
                     Menu._printFrame(6);
                     PlayGround._printFrame(6);
-                    a._show();
+                    a._show();                 
                     RunningGame = true;
                 }
             }
@@ -78,18 +82,16 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
         }
         if (RunningGame) {
             for (int i = 0; i <= 6; i++) {
-                if (rand() % 10 == 1 && i == 2) listCar[i]->_move(PlayGround, 10);
-                else if (rand() % 10 == 1) {
-                    listCar[i]->_move(PlayGround, 20);
-                    /*listAnimal[i]->_move(PlayGround, 50);*/
+                if (rand() % 10 == 1) {
+                    carPos[i] = listCar[i]->_move(PlayGround, 100);
                 }
             }
             if (newKey) {
                 a._move(PlayGround, toupper(*key));
-                //a.showPoint();
                 newKey = false;
             }
-
+            GotoXY(75, 20);
+            cout << a._checkCollision(carPos, 7);
         }
     }
 }

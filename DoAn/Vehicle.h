@@ -31,6 +31,7 @@ public:
             this->x = background[0] + 1;
             this->y = (background[3] - 8 - 4 * lane);
             this->direction = 0;
+            this->length = 16;
             return;
         }
         this->x = background[2] - 1;
@@ -86,8 +87,9 @@ public:
     virtual bool GetDirection() { return this->direction; }
     virtual int GetLength() { return this->length; }
 
-    void _move(screen PlayGround, int speed) {
+    int* _move(screen PlayGround, int speed) {
         int* background = PlayGround._getinform();
+        int* pos = new int[4];
         if (!this->GetDirection()) {
             if (this->GetX() < background[2] - this->GetLength() - 1) {
                 this->_show();
@@ -106,6 +108,10 @@ public:
                 Sleep(speed);
             }
             this->SetX(this->GetX() + 1);
+            pos[0] = this->GetX();
+            pos[1] = this->GetY();
+            pos[2] = this->GetX() + this->GetLength() - 2;
+            pos[3] = this->GetY() + 3;
         }
         else {
             if (this->GetX() > 1) {
@@ -129,7 +135,12 @@ public:
                 Sleep(speed);
             }
             this->SetX(this->GetX() - 1);
+            pos[0] = this->GetX() + 2;
+            pos[1] = this->GetY();
+            pos[2] = this->GetX() + this->GetLength();
+            pos[3] = this->GetY() + 3;
         }
+        return pos;
     }
 };
 class Car :public Vehicle {
@@ -240,19 +251,19 @@ public:
         this->direction = 0;
         this->length = 20;
     }
-    Truck(screen PlayGround, int lane, bool left) {
+    Truck(screen PlayGround, int lane, bool right) {
         int* background = PlayGround._getinform();
-        if (!left) {
+        if (!right) {
             this->x = background[0] + 1;
             this->y = (background[3] - 5 - 4 * lane);
-            this->direction = 1;
+            this->direction = 0;
             this->length = 20;
             return;
         }
         this->x = background[2] - 21;
         this->y = (background[3] - 5 - 4 * lane);
-        this->direction = 0;
-        this->length = 21;
+        this->direction = 1;
+        this->length = 20;
     }
     void GotoXY(int x, int y) {
         COORD coord;
@@ -285,24 +296,36 @@ public:
         }
         else {
             GotoXY(this->x, this->y);
-            cout << " ______________      ";
+            cout << " ______________     ";
             GotoXY(this->x, this->y + 1);
-            cout << " |              |__  ";
+            cout << " |             |__  ";
             GotoXY(this->x, this->y + 2);
-            cout << " |   __   ___   |___\\";
+            cout << " |   __  ___   |___\\";
             GotoXY(this->x, this->y + 3);
-            cout << " ==(_)-     -- -(_)--";
+            cout << " ==(_)-    -- -(_)--";
         }
     }
     virtual void _destroy() {
-        GotoXY(this->x, this->y);
-        cout << "                     ";
-        GotoXY(this->x, this->y + 1);
-        cout << "                     " << endl;
-        GotoXY(this->x, this->y + 2);
-        cout << "                     " << endl;
-        GotoXY(this->x, this->y + 3);
-        cout << "                     " << endl;
+        if (!this->direction) {
+            GotoXY(this->x, this->y);
+            cout << "                    ";
+            GotoXY(this->x, this->y + 1);
+            cout << "                    " << endl;
+            GotoXY(this->x, this->y + 2);
+            cout << "                    " << endl;
+            GotoXY(this->x, this->y + 3);
+            cout << "                    " << endl;
+        }
+        else {
+            GotoXY(this->x, this->y);
+            cout << "                     ";
+            GotoXY(this->x, this->y + 1);
+            cout << "                     " << endl;
+            GotoXY(this->x, this->y + 2);
+            cout << "                     " << endl;
+            GotoXY(this->x, this->y + 3);
+            cout << "                     " << endl;
+        }
     }
 };
 
