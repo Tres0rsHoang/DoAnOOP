@@ -43,7 +43,7 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
     listCar[5] = &ca4;
     listCar[6] = &ca5;*/
 
-    Monkey khi_1(PlayGround, 5, 1);
+    Monkey khi_1(PlayGround, 4, 1);
     Monkey khi_2(PlayGround, 3, 0);
     Moose nai_1(PlayGround, 1, 1);
     Moose nai_2(PlayGround, 2, 0);
@@ -109,6 +109,8 @@ void Thread_running(bool* Running, char* key, bool& newKey) {
             }
             GotoXY(75, 20);
             cout << a._checkCollision(animalPos, 4);
+            GotoXY(75, 10);
+            cout << a.getPoint();
         }
     }
 }

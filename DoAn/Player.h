@@ -16,7 +16,7 @@ class Player {
 private:
     int x;
     int y;
-    int point = 0 ;
+    int point = 0  ;
 
 public:
     Player() {
@@ -84,7 +84,7 @@ public:
             case 13:
             case 9:
             case 5:
-                this->point += 15;
+                this->point += 10;
                 break;
             default:
                 break;
@@ -101,7 +101,7 @@ public:
             case 14:
             case 10:
             case 6:
-                this->point -= 15;
+                this->point -= 10;
                 break;
             default:
                 break;
