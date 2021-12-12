@@ -6,27 +6,37 @@
 #include <thread>
 #include <conio.h>
 #include <thread>
+#include <string>
 
 #include "SetScreen.h"
 
 using namespace std;
 
 class Player {
-
 private:
+    string name;
     int x;
     int y;
-    int point = 0  ;
-
+    int point;
+    int life;
+    bool status;
 public:
     Player() {
+        this->name = "";
         this->x = 0;
         this->y = 0;
+        this->point = 0;
+        this->life = 3;
+        this->status = 0;
     }
     Player(screen PlayGround) {
         int* background = PlayGround._getinform();
         this->x = (background[2] - background[0]) / 2;
         this->y = background[3] - 3;
+        this->name = "";
+        this->point = 0;
+        this->life = 3;
+        this->status = 0;
     }
 
     void GotoXY(int x, int y) {
@@ -37,20 +47,24 @@ public:
     }
 
     void _show() {
-        GotoXY(this->x, this->y);
-        cout << "\\o/";
-        GotoXY(this->x, this->y + 1);
-        cout << " | ";
-        GotoXY(this->x, this->y + 2);
-        cout << "/ \\";
-        unsigned int milisecond = 1000;
-        //Sleep(50);
-        GotoXY(this->x, this->y);
-        cout << " o ";
-        GotoXY(this->x, this->y + 1);
-        cout << "/|\\";
-        GotoXY(this->x, this->y + 2);
-        cout << "/ \\";
+        if (!this->status) {
+            GotoXY(this->x, this->y);
+            cout << "\\o/";
+            GotoXY(this->x, this->y + 1);
+            cout << " | ";
+            GotoXY(this->x, this->y + 2);
+            cout << "/ \\";
+            this->status = true;
+        }
+        else {
+            GotoXY(this->x, this->y);
+            cout << " o ";
+            GotoXY(this->x, this->y + 1);
+            cout << "/|\\";
+            GotoXY(this->x, this->y + 2);
+            cout << "/ \\";
+            this->status = false;
+        }
     }
     void _destroy() {
         GotoXY(this->x, this->y);
@@ -66,6 +80,12 @@ public:
     int getPoint() {
         return this->point;
     }
+    int getLife() {
+        return this->life;
+    }
+    void setLife(int life) { this->life = life; }
+    string getName() { return this->name; }
+    void setName(string name) { this->name = name; }
     void showPoint() {
         cout << this->point;
     }
@@ -172,6 +192,17 @@ public:
                 pos[3] >= carPos[i][1] && pos[1] <= carPos[i][3])
                 return 1;
         }
+        return 0;
+    }
+    void _resetPosition(screen PlayGround) {
+        this->_destroy();
+        int* background = PlayGround._getinform();
+        this->x = (background[2] - background[0]) / 2;
+        this->y = background[3] - 3;
+        this->_show();
+    }
+    bool _winCheck() {
+        if (this->y <= 2) return 1;
         return 0;
     }
 };

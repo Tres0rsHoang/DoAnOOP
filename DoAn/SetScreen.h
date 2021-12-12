@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <thread>
 #include <conio.h>
+#include <stdio.h>
+#include <string>
 
 using namespace std;
 
@@ -128,7 +130,27 @@ public:
 		}
 		SetColor(0, 7);
 	}
-
+	void _printLightFrame(int color) {
+		//Vẽ khuôn
+		SetColor(0, color);
+		for (int i = this->y; i <= this->t;i++) {
+			GotoXY(this->x, i);
+			cout << (char)219;
+			GotoXY(this->z, i);
+			cout << (char)219;
+		}
+		for (int i = this->x;i <= this->z; i++) {
+			GotoXY(i, this->y);
+			cout << (char)219;
+			GotoXY(i, this->t);
+			cout << (char)219;
+			for (int j = 0; j <= 8; j++) {
+				GotoXY(i, this->t - 5 - 4 * j);
+				cout << (char)219;
+			}
+		}
+		SetColor(0, 7);
+	}
 	void _printDisplay(int color) {
 		SetColor(0, color);
 		GotoXY(5, 11);
@@ -181,6 +203,83 @@ public:
 		SetColor(0, 7);
 		return y;
 	}
+	string _inputNameScreen(int color) {
+		string name;
+		this->_printFrame(color);
+		SetColor(15, 6);
+		GotoXY((x + z) / 2 - 16, (y + t) / 2);
+		cout << "Input your name: ";
+		getline(cin, name);
+		SetColor(0, 7);
+		return name;
+	}
+	void _printScoreMenu(int color, int Score, string PlayerName, int life, int level) {
+		SetColor(0, 10);
+		GotoXY(x + 6, y + 2);
+		cout << "#     #                     ";
+		GotoXY(x + 6, y + 3);
+		cout << "##   ## ###### #    # #    #";
+		GotoXY(x + 6, y + 4);
+		cout << "# # # # #      ##   # #    #";	
+		GotoXY(x + 6, y + 5);
+		cout << "#  #  # #####  # #  # #    #";
+		GotoXY(x + 6, y + 6);
+		cout << "#     # #      #  # # #    #";
+		GotoXY(x + 6, y + 7);
+		cout << "#     # #      #   ## #    #";
+		GotoXY(x + 6, y + 8);
+		cout << "#     # ###### #    #  #### ";
+		SetColor(0, 6);
+		GotoXY(x + 2, y + 10);
+		cout << "Level: " << level;
+		GotoXY(x + 2, y + 11);
+		cout << "Player Name: " << PlayerName;
+		GotoXY(x + 2, y + 12);
+		cout << "Scores: " << Score;
+		GotoXY(x + 2, y + 13);
+		cout << "Lifes: " << life;
+		GotoXY(x, y + 15);
+		SetColor(0, 6);
+		for (int i = x;i < z;i++) cout << (char)219;
+
+		SetColor(0, 7);
+		GotoXY(x + 2, y + 17);
+		cout << "How to play:";
+		GotoXY(x + 2, y + 18);
+		cout << "- Use W A S D to move.";
+		GotoXY(x + 2, y + 19);
+		cout << "- Try not to hit cars or animals are";
+		GotoXY(x + 2, y + 20);
+		cout<<"running on the road.";
+		GotoXY(x + 2, y + 21);
+		cout << "- When the signal light turns green";
+		GotoXY(x + 2, y + 22);
+		cout<<"and yellow cars and animal may be";
+		GotoXY(x + 2, y + 23);
+		cout << "moving, but when it's red, they will ";
+		GotoXY(x + 2, y + 24);
+		cout<<"stop.";
+	}
+	void _loseScreen() {
+		this->_printFrame(6);
+		SetColor(0, 4);
+		GotoXY(x+25, y + 15);
+		cout << " __   __  _______  __   __    ___      _______  _______  _______ ";
+		GotoXY(x+25, y + 16);
+		cout << "|  | |  ||       ||  | |  |  |   |    |       ||       ||       |";
+		GotoXY(x+25, y + 17);
+		cout << "|  |_|  ||   _   ||  | |  |  |   |    |   _   ||  _____||    ___|";
+		GotoXY(x+25, y + 18);
+		cout << "|       ||  | |  ||  |_|  |  |   |    |  | |  || |_____ |   |___ ";
+		GotoXY(x+25, y + 19);
+		cout << "|_     _||  |_|  ||       |  |   |___ |  |_|  ||_____  ||    ___|";
+		GotoXY(x+25, y + 20);
+		cout << "  |   |  |       ||       |  |       ||       | _____| ||   |___ ";
+		GotoXY(x+25, y + 21);
+		cout << "  |___|  |_______||_______|  |_______||_______||_______||_______|";
+		SetColor(0, 7);
+	}
+
 };
 
 #endif

@@ -32,5 +32,8 @@
     <ClInclude Include="Animal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TrafficLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
