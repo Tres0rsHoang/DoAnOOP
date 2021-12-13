@@ -17,10 +17,10 @@ private:
     string name;
     int x;
     int y;
-    int point;
     int life;
     bool status;
     int level;
+    int point;
 public:
     Player() {
         this->name = "";
@@ -182,9 +182,6 @@ public:
         case 27: {
             GotoXY(this->x + 3, this->y);
             cout << "Done!!";
-            Sleep(800);
-            GotoXY(this->x + 3, this->y);
-            cout << "      ";
             break;
         }
         default:
@@ -218,6 +215,19 @@ public:
     bool _winCheck() {
         if (this->y <= 2) return 1;
         return 0;
+    }
+    static bool comp(const Player& a, const Player& b){
+        return a.point < b.point;
+    }
+    Player& operator= (const Player& b) {
+        this->name = b.name;
+        this->x = b.x;
+        this->y = b.y;
+        this->point = b.point;
+        this->level = b.level;
+        this->life = b.life;
+        this->status = b.status;
+        return *this;
     }
 };
 

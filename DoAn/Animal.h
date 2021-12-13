@@ -85,6 +85,7 @@ public:
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
     virtual int GetLength() { return this->length; }
+    virtual int GetLane() { return this->y; }
 
     int* _move(screen PlayGround, int speed) {
         int* background = PlayGround._getinform();
@@ -114,7 +115,7 @@ public:
             pos[3] = this->GetY() + 3;
         }
         else {
-            if (this->GetX() > 1) {
+            if (this->GetX() > 2) {
                 this->_show();
                 Sleep(speed);
                 this->_destroy();
@@ -168,13 +169,13 @@ public:
         int* background = PlayGround._getinform();
         if (!right) {
             this->x = background[0] + 1;
-            this->y = (background[3] - 18 - 4 * lane);
+            this->y = (background[3] - 5 - 4 * lane);
             this->direction = 0;
             this->length = 10;
             return;
         }
         this->x = background[2] - 17;
-        this->y = (background[3] - 18 - 4 * lane);
+        this->y = (background[3] - 5 - 4 * lane);
         this->direction = 1;
         this->length = 10;
     }
@@ -196,6 +197,7 @@ public:
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
     virtual int GetLength() { return this->length; }
+    virtual int GetLane() { return this->y; }
 
     virtual void _show() {
         if (!this->direction) {
@@ -210,7 +212,7 @@ public:
         }
         else{
             GotoXY(this->GetX(), this->GetY());
-            cout << " ___";
+            cout << " &__&";
             GotoXY(this->GetX(), this->GetY() + 1);
             cout << "{'.'}";
             GotoXY(this->GetX(), this->GetY() + 2);
@@ -266,13 +268,13 @@ public:
         int* background = PlayGround._getinform();
         if (!right) {
             this->x = background[0] + 1;
-            this->y = (background[3] - 18 - 4 * lane);
+            this->y = (background[3] - 5 - 4 * lane);
             this->direction = 0;
             this->length = 12;
             return;
         }
         this->x = background[2] - 17;
-        this->y = (background[3] - 18 - 4 * lane);
+        this->y = (background[3] - 5 - 4 * lane);
         this->direction = 1;
         this->length = 12;
     }
@@ -293,6 +295,7 @@ public:
     virtual void SetY(int y) { this->y = y; }
     virtual bool GetDirection() { return this->direction; }
     virtual int GetLength() { return this->length; }
+    virtual int GetLane() { return this->y; }
 
     virtual void _show() {
         if (!this->direction) {

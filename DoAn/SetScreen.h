@@ -102,7 +102,7 @@ public:
 		SetScreenBufferSize(this->z + 1, this->t + 1);
 		FixConsoleWindow();
 		ShowCur(0);
-		//DisableSelection();
+		DisableSelection();
 	}
 	int* _getinform() {
 		int* result = new int[4];
@@ -262,6 +262,19 @@ public:
 		cout<<"stop.";
 		GotoXY(x + 2, y + 25);
 		cout << "- Press b to save game.";
+		GotoXY(x + 2, y + 26);
+		cout << "- Press Esc to back to Menu.";
+		GotoXY(x + 2, y + 27);
+		cout << "You will recive nofication to ask save";
+		GotoXY(x + 2, y + 28);
+		cout<<"game.";
+		SetColor(0, 6);
+		for (int i = x;i < z;i++) {
+			GotoXY(i, y + 30);
+			cout << (char)219;
+		}
+
+		SetColor(0, 7);
 	}
 	void _loseScreen(int score) {
 		this->_printFrame(6);
@@ -280,14 +293,27 @@ public:
 		cout << "  |   |  |       ||       |  |       ||       | _____| ||   |___ ";
 		GotoXY(x+25, y + 21);
 		cout << "  |___|  |_______||_______|  |_______||_______||_______||_______|";
-		GotoXY(x + 55, y + 22);
+		SetColor(0, 2);
+		GotoXY(x + 46, y + 24);
 		cout << "Your scores is: " << score;
-		GotoXY(x + 45, y + 23);
+		GotoXY(x + 43, y + 25);
 		cout << "Press any key to continue...";
-		system("pause > nul");
 		SetColor(0, 7);
 	}
-	
+	void _menuNofication(string a) {
+		for (int i = x + 5;i < z;i++) {
+			GotoXY(i, y + 35);
+			cout << " ";
+		}
+		GotoXY(x + 5,y + 35);
+		SetColor(0, 2);
+		cout << a;
+		SetColor(0, 7);
+	}
+	void _ThanksForPlaying() {
+		system("cls");
+		cout << "Thanks For Playing...\n";
+	}
 };
 
 #endif
