@@ -20,6 +20,7 @@ private:
     int point;
     int life;
     bool status;
+    int level;
 public:
     Player() {
         this->name = "";
@@ -28,6 +29,7 @@ public:
         this->point = 0;
         this->life = 3;
         this->status = 0;
+        this->level = 0;
     }
     Player(screen PlayGround) {
         int* background = PlayGround._getinform();
@@ -37,8 +39,18 @@ public:
         this->point = 0;
         this->life = 3;
         this->status = 0;
+        this->level = 0;
     }
-
+    Player(screen PlayGround, string name, int point, int life, int level) {
+        int* background = PlayGround._getinform();
+        this->x = (background[2] - background[0]) / 2;
+        this->y = background[3] - 3;
+        this->name = name;
+        this->point = point;
+        this->level = level;
+        this->life = life;
+        this->status = 0;
+    }
     void GotoXY(int x, int y) {
         COORD coord;
         coord.X = x;
@@ -86,6 +98,8 @@ public:
     void setLife(int life) { this->life = life; }
     string getName() { return this->name; }
     void setName(string name) { this->name = name; }
+    void setLevel(int level) { this->level = level; }
+    int getLevel() { return this->level; }
     void showPoint() {
         cout << this->point;
     }

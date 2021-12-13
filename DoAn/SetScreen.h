@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -259,8 +260,10 @@ public:
 		cout << "moving, but when it's red, they will ";
 		GotoXY(x + 2, y + 24);
 		cout<<"stop.";
+		GotoXY(x + 2, y + 25);
+		cout << "- Press b to save game.";
 	}
-	void _loseScreen() {
+	void _loseScreen(int score) {
 		this->_printFrame(6);
 		SetColor(0, 4);
 		GotoXY(x+25, y + 15);
@@ -277,9 +280,14 @@ public:
 		cout << "  |   |  |       ||       |  |       ||       | _____| ||   |___ ";
 		GotoXY(x+25, y + 21);
 		cout << "  |___|  |_______||_______|  |_______||_______||_______||_______|";
+		GotoXY(x + 55, y + 22);
+		cout << "Your scores is: " << score;
+		GotoXY(x + 45, y + 23);
+		cout << "Press any key to continue...";
+		system("pause > nul");
 		SetColor(0, 7);
 	}
-
+	
 };
 
 #endif

@@ -148,6 +148,9 @@
     <ClInclude Include="TrafficLight.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SaveGame.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
