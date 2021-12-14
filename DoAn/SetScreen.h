@@ -154,20 +154,20 @@ public:
 	}
 	void _printDisplay(int color) {
 		SetColor(0, color);
-		GotoXY(5, 11);
+		GotoXY(6, 11);
 		cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
-		GotoXY(5, 12);
+		GotoXY(6, 12);
 		cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
-		GotoXY(5, 13);
+		GotoXY(6, 13);
 		cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
-		GotoXY(5, 14);
+		GotoXY(6, 14);
 		cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
-		GotoXY(5, 15);
+		GotoXY(6, 15);
 		cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
 		GotoXY(53, 22);
 		cout << "MENU";
 		GotoXY(47, 25);
-		SetColor(15, 6);
+		SetColor(6, 0);
 		cout << ">> New Game ";
 		SetColor(0, 6);
 		GotoXY(51, 26);
@@ -195,7 +195,7 @@ public:
 		else if (yc == 29) cout << "    Exit";
 		xc = x; yc = y;
 		GotoXY(x, y);
-		SetColor(15, 6);
+		SetColor(6, 0);
 		if (y == 25) cout << ">> New Game ";
 		else if (y == 26) cout << ">> Load Game ";
 		else if (y == 27) cout << ">> High Scores ";
@@ -205,10 +205,22 @@ public:
 		return y;
 	}
 	string _inputNameScreen(int color) {
-		string name;
+		system("cls");
 		this->_printFrame(color);
-		SetColor(15, 6);
-		GotoXY((x + z) / 2 - 16, (y + t) / 2);
+		SetColor(0, color);
+		GotoXY(6, 11);
+		cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
+		GotoXY(6, 12);
+		cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
+		GotoXY(6, 13);
+		cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
+		GotoXY(6, 14);
+		cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
+		GotoXY(6, 15);
+		cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
+		GotoXY(this-> x + 40, this->y + 22);
+		string name;
+		SetColor(6, 0);
 		cout << "Input your name: ";
 		getline(cin, name);
 		SetColor(0, 7);
@@ -279,19 +291,19 @@ public:
 	void _loseScreen(int score) {
 		this->_printFrame(6);
 		SetColor(0, 4);
-		GotoXY(x+25, y + 15);
+		GotoXY(x+23, y + 15);
 		cout << " __   __  _______  __   __    ___      _______  _______  _______ ";
-		GotoXY(x+25, y + 16);
+		GotoXY(x+23, y + 16);
 		cout << "|  | |  ||       ||  | |  |  |   |    |       ||       ||       |";
-		GotoXY(x+25, y + 17);
+		GotoXY(x+23, y + 17);
 		cout << "|  |_|  ||   _   ||  | |  |  |   |    |   _   ||  _____||    ___|";
-		GotoXY(x+25, y + 18);
+		GotoXY(x+23, y + 18);
 		cout << "|       ||  | |  ||  |_|  |  |   |    |  | |  || |_____ |   |___ ";
-		GotoXY(x+25, y + 19);
+		GotoXY(x+23, y + 19);
 		cout << "|_     _||  |_|  ||       |  |   |___ |  |_|  ||_____  ||    ___|";
-		GotoXY(x+25, y + 20);
+		GotoXY(x+23, y + 20);
 		cout << "  |   |  |       ||       |  |       ||       | _____| ||   |___ ";
-		GotoXY(x+25, y + 21);
+		GotoXY(x+23, y + 21);
 		cout << "  |___|  |_______||_______|  |_______||_______||_______||_______|";
 		SetColor(0, 2);
 		GotoXY(x + 46, y + 24);
@@ -313,6 +325,74 @@ public:
 	void _ThanksForPlaying() {
 		system("cls");
 		cout << "Thanks For Playing...\n";
+	}
+	void _printInstruction(int color) {
+		system("cls");
+		this->_printFrame(color);
+	}
+	void _printHowToPlay(int color) {
+		system("cls");
+		this->_printFrame(color);
+		GotoXY(this->x + 49, y + 17);
+		cout << "How to Play:";
+		GotoXY(this->x + 10, y + 19);
+		cout << "- Use W, A, S, D to move player.";
+		GotoXY(this->x + 10, y + 20);
+		cout << "- Try to don't hit animals or cars are running on the road.";
+		GotoXY(this->x + 10, y + 21);
+		cout << "- You have 3 lifes to play. Life will decrease by one everytime you hit the car or animal.";
+		GotoXY(this->x + 10, y + 22);
+		cout << "- Press b when playing game to save game.";
+		GotoXY(this->x + 47, t - 2);
+		cout << "CROSING ROAD GAME";
+	}
+	void _levelScreen(int color) {
+		system("cls");
+		this->_printFrame(color);
+		SetColor(0, color);
+		GotoXY(6, 11);
+		cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
+		GotoXY(6, 12);
+		cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
+		GotoXY(6, 13);
+		cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
+		GotoXY(6, 14);
+		cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
+		GotoXY(6, 15);
+		cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
+		GotoXY(49, 22);
+		cout << "CHOOSE LEVEL";
+		GotoXY(48, 25);
+		SetColor(6, 0);
+		cout << ">> Easy ";
+		SetColor(0, 6);
+		GotoXY(52, 26);
+		cout << "Normal";
+		GotoXY(52, 27);
+		cout << "Hard";
+		SetColor(0, 7);
+	}
+	int _chooseLevel(int& x, int& y, char key) {
+		if (key != 'W' && key != 'S') {
+			if (y == 25) return 1;
+			if (y == 26) return 11;
+			if (y == 27) return 21;
+		}
+		int xc = x, yc = y;
+		if (key == 'W' && y > 25) y--;
+		else if (key == 'S' && y < 27) y++;
+		GotoXY(xc, yc);
+		SetColor(0, 6);
+		if (yc == 25) cout << "    Easy";
+		else if (yc == 26) cout << "    Normal";
+		else if (yc == 27) cout << "    Hard";
+		xc = x; yc = y;
+		GotoXY(x, y);
+		SetColor(6, 0);
+		if (y == 25) cout << ">> Easy ";
+		else if (y == 26) cout << ">> Normal ";
+		else if (y == 27) cout << ">> Hard ";
+		SetColor(0, 7);
 	}
 };
 

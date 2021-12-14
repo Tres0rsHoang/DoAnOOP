@@ -67,6 +67,7 @@ public:
             SetColor(0, 4);
             cout << (char)177;
         }
+        SetColor(0, 7);
     }
     void _changeAndShow() {
         GotoXY(this->x + 1, this->lane);
@@ -81,8 +82,9 @@ public:
                 GotoXY(this->x, this->lane);
                 cout << " ";
                 GotoXY(this->x, this->lane + 2);
-                SetColor(0, 2);
+                SetColor(0, 10);
                 cout << (char)177;
+                SetColor(0, 7);
             }
             if (this->status == 1) {
                 GotoXY(this->x, this->lane + 2);
@@ -90,13 +92,15 @@ public:
                 GotoXY(this->x, this->lane + 1);
                 SetColor(0, 6);
                 cout << (char)177;
+                SetColor(0, 7);
             }
             if (this->status == 2) {
                 GotoXY(this->x, this->lane + 1);
                 cout << " ";
                 GotoXY(this->x, this->lane);
-                SetColor(0, 4);
+                SetColor(0, 12);
                 cout << (char)177;
+                SetColor(0, 7);
             }
             this->time = this->baseTime;
         }

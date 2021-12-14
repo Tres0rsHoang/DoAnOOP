@@ -183,17 +183,17 @@ void GameSave(Player* a, string fileName, screen Menu) {
     fileOut << dt;
     fileOut.close();
 }
-Player* GameLoadFileFile(screen Display, string fileName, int color, screen PlayGround) {
+Player* GameLoadFileFile(screen Display, string fileName, int color, screen PlayGround, char key) {
     SetColor(0, color);
-    GotoXY(5, 11);
+    GotoXY(6, 11);
     cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
-    GotoXY(5, 12);
+    GotoXY(6, 12);
     cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
-    GotoXY(5, 13);
+    GotoXY(6, 13);
     cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
-    GotoXY(5, 14);
+    GotoXY(6, 14);
     cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
-    GotoXY(5, 15);
+    GotoXY(6, 15);
     cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
     GotoXY(49, 22);
     cout << "GAME SAVE";
@@ -249,20 +249,23 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
     GotoXY(42, line);
     int pos;
     cout << "Input player you want to choose: ";
-    cin >> pos;
+    if (key == 13) return PlayerList[1];
+    else if (key == '1') pos = 1;
+    else if (key == '2') pos = 2;
+    else if (key == '3') pos = 3;
     return PlayerList[PlayerList.size() - pos];
 }
 void GameHighScores(screen Display, string fileName, int color, screen PlayGround) {
     SetColor(0, color);
-    GotoXY(5, 11);
+    GotoXY(6, 11);
     cout << " ______  ______  ______  ______  ______  __  __   __  ______       ______  ______  ______  _____   ";
-    GotoXY(5, 12);
+    GotoXY(6, 12);
     cout << "/\\  ___\\/\\  == \\/\\  __ \\/\\  ___\\/\\  ___\\/\\ \\/\\ \"-.\\ \\/\\  ___\\     /\\  == \\/\\  __ \\/\\  __ \\/\\  __-. ";
-    GotoXY(5, 13);
+    GotoXY(6, 13);
     cout << "\\ \\ \\___\\ \\  __<\\ \\ \\/\\ \\ \\___  \\ \\___  \\ \\ \\ \\ \\-.  \\ \\ \\__ \\    \\ \\  __<\\ \\ \\/\\ \\ \\  __ \\ \\ \\/\\ \\ ";
-    GotoXY(5, 14);
+    GotoXY(6, 14);
     cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
-    GotoXY(5, 15);
+    GotoXY(6, 15);
     cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
     GotoXY(49, 22);
     cout << "HIGHSCORES";
@@ -295,30 +298,31 @@ void GameHighScores(screen Display, string fileName, int color, screen PlayGroun
 
     if (PlayerList.size() >= 3) {
         for (unsigned int i = PlayerList.size() - 3;i < PlayerList.size();i++) {
-            GotoXY(41, line);
+            GotoXY(40, line);
             cout << PlayerList.size() - i << ". ";
             cout << "Player name: " << PlayerList[i].getName();
-            GotoXY(44, line + 1);
+            GotoXY(43, line + 1);
             cout << "Scores: " << PlayerList[i].getPoint() << " Life: " << PlayerList[i].getLife() << " Level: " << PlayerList[i].getLevel();
-            GotoXY(44, line + 2);
+            GotoXY(43, line + 2);
             cout << dateList[PlayerList.size() - i - 1];
             line += 4;
         }
     }
     else {
         for (unsigned int i = 0;i < PlayerList.size();i++) {
-            GotoXY(41, line);
+            GotoXY(40, line);
             cout << 3 - i << ". ";
             cout << "Player name: " << PlayerList[i].getName();
-            GotoXY(44, line + 1);
+            GotoXY(43, line + 1);
             cout << "Scores: " << PlayerList[i].getPoint() << " Life: " << PlayerList[i].getLife() << " Level: " << PlayerList[i].getLevel();
-            GotoXY(44, line + 2);
+            GotoXY(43, line + 2);
             cout << dateList[i];
             line += 4;
         }
     }
 
 }
+
 void Thread_running(bool* Running, char* key, bool& newKey) {
     srand(time(NULL));
     screen Menu(70, 0, 110, 40);
@@ -342,74 +346,44 @@ Again:
     int preSec = sec;
 
     int display_x = 47, display_y = 25;
+    int display_x_playgame = 48;
     int choose = 25;
+    int level = 11;
     bool RunningGame = false;
     int** carPos = new int*[listCar.size()];
     int** animalPos = new int* [listAnimal.size()];
     int timeDeleteNofication = 5;
     bool Exit = false;
     bool HighScoreOpen = false;
+    bool InstructionOpen = false;
+    bool LoadGame = false;
     bool GameLose = false;
+    bool PlayGame = false;
+    bool Init = false;
+
     while (*Running) {
-        if (newKey && !RunningGame && !HighScoreOpen && !GameLose) {
+        if (newKey && !RunningGame && !HighScoreOpen && !GameLose && !InstructionOpen && !LoadGame && !PlayGame && !Init) {
             choose = Display.displayMove(display_x, display_y, toupper(*key));
             if (*key == 13) {
                 if (choose == 25) {
                     system("cls");
-                    a->setName(Display._inputNameScreen(6));
-                    system("cls");
-                    Menu._printFrame(6);
-                    a->setLevel(30);
-                    Menu._printScoreMenu(6, 0, a->getName(), a->getLife(), a->getLevel());
-                    PlayGround._printFrame(6);
-                    a->_show();
-                    
-                    GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
-
-                    delete[] carPos;
-                    delete[] animalPos;
-
-                    carPos = new int* [listCar.size()];
-                    animalPos = new int* [listAnimal.size()];
-
-                    for (unsigned int i = 0; i < listCar.size(); i++)
-                        carPos[i] = new int[4];
-                    for (unsigned int i = 0;i < listAnimal.size();i++)
-                        animalPos[i] = new int[4];
-
-                    Light._printLightFrame(6);
-                    for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
-                    RunningGame = true;
+                    Display._printHowToPlay(6);
+                    PlayGame = true;
                 }
                 if (choose == 26) {
                     system("cls");
-                    a = GameLoadFileFile(Display, "SaveGame.txt", 6, PlayGround);
-                    system("cls");
-                    Menu._printFrame(6);
-                    PlayGround._printFrame(6);
-                    Menu._printScoreMenu(6, 0, a->getName(), a->getLife(), a->getLevel());
-                    GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
-                    a->_show();
-
-                    delete[] carPos;
-                    delete[] animalPos;
-
-                    carPos = new int* [listCar.size()];
-                    animalPos = new int* [listAnimal.size()];
-
-                    for (unsigned int i = 0; i < listCar.size(); i++)
-                        carPos[i] = new int[4];
-                    for (unsigned int i = 0;i < listAnimal.size();i++)
-                        animalPos[i] = new int[4];
-
-                    Light._printLightFrame(6);
-                    for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
-                    RunningGame = true;
+                    GameLoadFileFile(Display, "SaveGame.txt", 6, PlayGround, *key);
+                    LoadGame = true;
                 }
                 if (choose == 27) {
                     system("cls");
                     GameHighScores(Display, "SaveGame.txt", 6, PlayGround);
                     HighScoreOpen = true;
+                }
+                if (choose == 28) {
+                    system("cls");
+                    Display._printInstruction(6);
+                    InstructionOpen = true;
                 }
                 if (choose == 29) { 
                     Display._ThanksForPlaying();
@@ -429,6 +403,77 @@ Again:
             newKey = false;
             break;
         }
+        else if (newKey && InstructionOpen) {
+            InstructionOpen = false;
+            newKey = false;
+            break;
+        }
+        else if (newKey && LoadGame) {
+            a = GameLoadFileFile(Display, "SaveGame.txt", 6, PlayGround, *key);
+
+            system("cls");
+            Menu._printFrame(6);
+            PlayGround._printFrame(6);
+            Menu._printScoreMenu(6, 0, a->getName(), a->getLife(), a->getLevel());
+            GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
+            a->_show();
+
+            delete[] carPos;
+            delete[] animalPos;
+
+            carPos = new int* [listCar.size()];
+            animalPos = new int* [listAnimal.size()];
+
+            for (unsigned int i = 0; i < listCar.size(); i++)
+                carPos[i] = new int[4];
+            for (unsigned int i = 0;i < listAnimal.size();i++)
+                animalPos[i] = new int[4];
+
+            Light._printLightFrame(6);
+            for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
+            LoadGame = false;
+            newKey = false;
+            RunningGame = true;
+        }
+        else if (newKey && PlayGame) {
+            system("cls");
+            Display._levelScreen(6);
+            PlayGame = false;
+            Init = true;
+            newKey = false;
+        }
+        else if (newKey && Init) {
+            level = Display._chooseLevel(display_x_playgame, display_y, toupper(*key));
+            if (*key == 13) {
+                system("cls");
+                a->setName(Display._inputNameScreen(6));
+                system("cls");
+                a->setLevel(level);
+                Menu._printFrame(6);
+                Menu._printScoreMenu(6, 0, a->getName(), a->getLife(), a->getLevel());
+                PlayGround._printFrame(6);
+                a->_show();
+                GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
+
+                delete[] carPos;
+                delete[] animalPos;
+
+                carPos = new int* [listCar.size()];
+                animalPos = new int* [listAnimal.size()];
+
+                for (unsigned int i = 0; i < listCar.size(); i++)
+                    carPos[i] = new int[4];
+                for (unsigned int i = 0;i < listAnimal.size();i++)
+                    animalPos[i] = new int[4];
+
+                Light._printLightFrame(6);
+                for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
+                Init = false;
+                RunningGame = true;
+                
+            }
+            newKey = false;
+        }
         //Test va cham xe
         else if (RunningGame) {
             now = time(0);
@@ -446,11 +491,11 @@ Again:
             }
             for (unsigned int i = 0;i < listCar.size();i++)
                 if (rand() % 10 == 1 && listLight[i].GetStatus() != 2) 
-                    carPos[i] = listCar[i]->_move(PlayGround, 100);
+                    carPos[i] = listCar[i]->_move(PlayGround, 50 + rand() % 100);
 
             for (unsigned int i = 0;i < listAnimal.size();i++)
-                if (rand() % 10 == 1 && listLight[i].GetStatus() != 2)
-                    animalPos[i] = listAnimal[i]->_move(PlayGround, 100);
+                if (rand() % 10 == 1 && listLight[listCar.size() + i].GetStatus() != 2)
+                    animalPos[i] = listAnimal[i]->_move(PlayGround, 50 + rand() % 100);
 
             if (newKey) {
                 if (!Exit) {
@@ -472,11 +517,20 @@ Again:
                         GameSave(a, "SaveGame.txt", Menu);
                         Menu._menuNofication("Game Save...");
                         timeDeleteNofication = 5;
+                        Exit = false;
+                        newKey = false;
+                        break;
+                    }
+                    if (*key == 'n') {
+                        Exit = false;
+                        newKey = false;
                         break;
                     }
                     else {
+                        Menu._menuNofication("Please only press y or n button.");
+                        timeDeleteNofication = 5;
                         Exit = false;
-                        break;
+                        newKey = false;
                     }
                 }
                 newKey = false;
