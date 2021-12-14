@@ -145,6 +145,7 @@ public:
         return pos;
     }
 };
+
 class Car :public Vehicle {
 private:
     int x;
@@ -197,7 +198,7 @@ public:
     int GetLength() { return this->length; }
     int GetLane() { return this->y; }
 
-    virtual void _show() {
+    void _show() {
         if (!this->direction) {
             GotoXY(this->GetX(), this->GetY());
             cout << "  _______        ";
@@ -219,7 +220,7 @@ public:
             cout << " '-(_)-  -(_)-`=";
         }
     }
-    virtual void _destroy() {
+    void _destroy() {
         GotoXY(this->x, this->y);
         cout << "                ";
         GotoXY(this->x, this->y + 1);
@@ -272,19 +273,19 @@ public:
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
     }
 
-    virtual int GetX() {
+    int GetX() {
         return this->x;
     }
-    virtual void SetX(int x) {
+    void SetX(int x) {
         this->x = x;
     }
-    virtual int GetY() { return this->y; }
-    virtual void SetY(int y) { this->y = y; }
-    virtual bool GetDirection() { return this->direction; }
-    virtual int GetLength() { return this->length; }
-    virtual int GetLane() { return this->y; }
+    int GetY() { return this->y; }
+    void SetY(int y) { this->y = y; }
+    bool GetDirection() { return this->direction; }
+    int GetLength() { return this->length; }
+    int GetLane() { return this->y; }
 
-    virtual void _show() {
+    void _show() {
         if (this->direction) {
             GotoXY(this->x, this->y);
             cout << "     ______________ ";
@@ -306,7 +307,7 @@ public:
             cout << " ==(_)-    -- -(_)--";
         }
     }
-    virtual void _destroy() {
+    void _destroy() {
         if (!this->direction) {
             GotoXY(this->x, this->y);
             cout << "                    ";

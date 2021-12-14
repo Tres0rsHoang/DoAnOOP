@@ -4,6 +4,7 @@
 #include "SetScreen.h"
 #include "Animal.h"
 #include "TrafficLight.h"
+#include <mmsystem.h>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -31,6 +32,7 @@ void SetColor(int backgound_color, int text_color) {
     int color_code = backgound_color * 16 + text_color;
     SetConsoleTextAttribute(hStdout, color_code);
 }
+
 void GameLoad(screen PlayGround, screen Light, 
     vector<Vehicle*>& listCar, vector<TrafficLight>& listLight, vector<Animal*>& listAnimal, int level) {
     listCar.clear();
@@ -85,7 +87,13 @@ void GameLoad(screen PlayGround, screen Light,
         truckNumber = totalCarAndAnimal - monkeyNumber - carNumber - mooseNumber;
         if (truckNumber < 0) truckNumber = 0;
     }
+
+    sndPlaySound(NULL, SND_FILENAME | SND_ASYNC);
     
+    if (monkeyNumber > 0 && mooseNumber > 0) sndPlaySound(TEXT("MonkeyInredeer.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+    else if (monkeyNumber > 0) sndPlaySound(TEXT("MonkeySound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+    else if (mooseNumber > 0) sndPlaySound(TEXT("ReindeerSound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+
     while (carNumber > 0) {
         int tempLane = rand() % 9;
         if (tempLane == 0) continue;
@@ -171,6 +179,9 @@ void GameReset(Player* a, vector<Vehicle*>& listCar, vector<TrafficLight>& listL
 
     delete[] animalPos;
     delete[] carPos;
+
+    sndPlaySound(NULL, SND_FILENAME | SND_ASYNC);
+    mciSendString(TEXT("stop wav"), NULL, 0, NULL);
 }
 void GameSave(Player* a, string fileName, screen Menu) {
     ofstream fileOut(fileName, ios::app);
@@ -204,10 +215,15 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
     string date;
     
     Display._printFrame(6);
-   
+    
     vector<Player*> PlayerList;
     vector<string> dateList;
     ifstream fi(fileName);
+    if (fi.fail()) {
+        GotoXY(52, 25);
+        cout << "Empty...";
+        return NULL;
+    }
     while (!fi.eof()) {
         getline(fi, name);
         if (name != "") {
@@ -237,7 +253,7 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
     else {
         for (unsigned int i = 0;i < PlayerList.size();i++) {
             GotoXY(41, line);
-            cout << 3 - i << ". ";
+            cout << PlayerList.size() - i << ". ";
             cout << "Player name: " << PlayerList[i]->getName();
             GotoXY(44, line + 1);
             cout << "Scores: " << PlayerList[i]->getPoint() << " Life: " << PlayerList[i]->getLife() << " Level: " << PlayerList[i]->getLevel();
@@ -247,8 +263,11 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
         }
     }
     GotoXY(42, line);
-    int pos;
-    cout << "Input player you want to choose: ";
+    int pos = 1;
+    cout << "Input player you want to choose (1-3): ";
+    GotoXY(42, line + 1);
+    cout << "Press exit to back.";
+    if (key == 27) return NULL;
     if (key == 13) return PlayerList[1];
     else if (key == '1') pos = 1;
     else if (key == '2') pos = 2;
@@ -394,6 +413,7 @@ Again:
             newKey = false;
         }
         else if (newKey && HighScoreOpen) {
+            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             HighScoreOpen = false;
             newKey = false;
             break;
@@ -404,13 +424,18 @@ Again:
             break;
         }
         else if (newKey && InstructionOpen) {
+            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             InstructionOpen = false;
             newKey = false;
             break;
         }
         else if (newKey && LoadGame) {
             a = GameLoadFileFile(Display, "SaveGame.txt", 6, PlayGround, *key);
-
+            if (a == NULL) {
+                LoadGame = false;
+                newKey = false;
+                break;
+            }
             system("cls");
             Menu._printFrame(6);
             PlayGround._printFrame(6);
@@ -433,10 +458,13 @@ Again:
             for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
             LoadGame = false;
             newKey = false;
+            mciSendString(TEXT("open \"PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
+            mciSendString(TEXT("play wav"), NULL, 0, NULL);
             RunningGame = true;
         }
         else if (newKey && PlayGame) {
             system("cls");
+            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             Display._levelScreen(6);
             PlayGame = false;
             Init = true;
@@ -469,6 +497,8 @@ Again:
                 Light._printLightFrame(6);
                 for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
                 Init = false;
+                mciSendString(TEXT("open \"PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
+                mciSendString(TEXT("play wav"), NULL, 0, NULL);
                 RunningGame = true;
                 
             }
@@ -535,7 +565,7 @@ Again:
                 }
                 newKey = false;
             }
-            if (a->_checkCollision(carPos, listCar.size())) {
+            if (a->_checkCollision(carPos, (int)listCar.size())) {
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
@@ -543,7 +573,7 @@ Again:
                 Menu._menuNofication(nofication);
             }
 
-            if (a->_checkCollision(animalPos, listAnimal.size())) {
+            if (a->_checkCollision(animalPos, (int)listAnimal.size())) {
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
@@ -567,8 +597,8 @@ Again:
                 a->_resetPosition(PlayGround);
 
                 GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
-                delete carPos;
-                delete animalPos;
+                delete[] carPos;
+                delete[] animalPos;
 
                 carPos = new int* [listCar.size()];
                 animalPos = new int* [listAnimal.size()];
@@ -594,7 +624,7 @@ int main() {
     bool* run = new bool; *run = true;
     char* key = new char; *key = ' ';
     bool newKey = true;
-
+    
     thread t1(Thread_running, run, key, ref(newKey));
 
     while (1) {

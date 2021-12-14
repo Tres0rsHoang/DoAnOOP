@@ -181,6 +181,7 @@ public:
 		SetColor(0, 7);
 	}
 	int displayMove(int &x, int &y, char key) {
+		sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC );
 		if (key != 'W' && key != 'S') return y;
 		int xc = x, yc = y;
 		if (key == 'W' && y > 25) y--;
@@ -373,6 +374,7 @@ public:
 		SetColor(0, 7);
 	}
 	int _chooseLevel(int& x, int& y, char key) {
+		sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
 		if (key != 'W' && key != 'S') {
 			if (y == 25) return 1;
 			if (y == 26) return 11;
@@ -393,6 +395,7 @@ public:
 		else if (y == 26) cout << ">> Normal ";
 		else if (y == 27) cout << ">> Hard ";
 		SetColor(0, 7);
+		return 1;
 	}
 };
 
