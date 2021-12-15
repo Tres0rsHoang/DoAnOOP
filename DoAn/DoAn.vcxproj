@@ -140,10 +140,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animal.cpp" />
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="MainProgram.cpp" />
+    <ClCompile Include="Monkey.cpp" />
+    <ClCompile Include="Moose.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SetScreen.cpp" />
+    <ClCompile Include="TrafficLight.cpp" />
+    <ClCompile Include="Truck.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animal.h" />
+    <ClInclude Include="GameLibrary.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SetScreen.h" />
     <ClInclude Include="TrafficLight.h" />
