@@ -152,7 +152,7 @@ void screen::_printDisplay(int color) {
 	GotoXY(51, 27);
 	cout << "High Scores";
 	GotoXY(51, 28);
-	cout << "Intruction";
+	cout << "Credits";
 	GotoXY(51, 29);
 	cout << "Exit";
 	SetColor(0, 7);
@@ -169,7 +169,7 @@ int screen::displayMove(int& x, int& y, char key) {
 	if (yc == 25) cout << "    New Game";
 	else if (yc == 26) cout << "    Load Game";
 	else if (yc == 27) cout << "    High Scores";
-	else if (yc == 28) cout << "    Intruction";
+	else if (yc == 28) cout << "    Credits";
 	else if (yc == 29) cout << "    Exit";
 	xc = x; yc = y;
 	GotoXY(x, y);
@@ -177,7 +177,7 @@ int screen::displayMove(int& x, int& y, char key) {
 	if (y == 25) cout << ">> New Game ";
 	else if (y == 26) cout << ">> Load Game ";
 	else if (y == 27) cout << ">> High Scores ";
-	else if (y == 28) cout << ">> Intruction ";
+	else if (y == 28) cout << ">> Credits ";
 	else if (y == 29) cout << ">> Exit ";
 	SetColor(0, 7);
 	return y;
@@ -306,7 +306,7 @@ void screen::_ThanksForPlaying() {
 	system("cls");
 	cout << "Thanks For Playing...\n";
 }
-void screen::_printInstruction(int color) {
+void screen::_printCredits(int color) {
 	system("cls");
 	this->_printFrame(color);
 	SetColor(0, color);
