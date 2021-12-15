@@ -606,7 +606,11 @@ Again:
 
             if (a->getLife() == 0) {
                 system("cls");
+                sndPlaySound(NULL, SND_FILENAME | SND_ASYNC);
+                mciSendString(TEXT("stop wav"), NULL, 0, NULL);
                 Display._loseScreen(a->getPoint());
+                sndPlaySound(TEXT("./SoundTrack/LoseSound.wav"), SND_FILENAME | SND_ASYNC);
+                Sleep(3000);
                 GameLose = true;
                 RunningGame = false;
             }
