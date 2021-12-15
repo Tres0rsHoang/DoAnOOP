@@ -90,9 +90,9 @@ void GameLoad(screen PlayGround, screen Light,
 
     sndPlaySound(NULL, SND_FILENAME | SND_ASYNC);
     
-    if (monkeyNumber > 0 && mooseNumber > 0) sndPlaySound(TEXT("MonkeyInredeer.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
-    else if (monkeyNumber > 0) sndPlaySound(TEXT("MonkeySound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
-    else if (mooseNumber > 0) sndPlaySound(TEXT("ReindeerSound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+    if (monkeyNumber > 0 && mooseNumber > 0) sndPlaySound(TEXT("./SoundTrack/MonkeyInredeer.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+    else if (monkeyNumber > 0) sndPlaySound(TEXT("./SoundTrack/MonkeySound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
+    else if (mooseNumber > 0) sndPlaySound(TEXT("./SoundTrack/ReindeerSound.wav"), SND_FILENAME | SND_ASYNC | SND_LOOP);
 
     while (carNumber > 0) {
         int tempLane = rand() % 9;
@@ -161,10 +161,10 @@ void GameLoad(screen PlayGround, screen Light,
     }
     else if (TrueLevel == 4) {
         for (unsigned int i = 0;i < listCar.size();i++) {
-            listLight.push_back(TrafficLight(Light, listCar[i]->GetLane(), rand() % 3, rand() % 4 + 2));
+            listLight.push_back(TrafficLight(Light, listCar[i]->GetLane(), rand() % 3, rand() % 5 + 3));
         }
         for (unsigned int i = 0;i < listAnimal.size();i++) {
-            listLight.push_back(TrafficLight(Light, listAnimal[i]->GetLane(), rand() % 3, rand() % 4 + 2));
+            listLight.push_back(TrafficLight(Light, listAnimal[i]->GetLane(), rand() % 3, rand() % 5 + 3));
         }
     }
     
@@ -262,16 +262,18 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
             line += 4;
         }
     }
+    fi.close();
+
     GotoXY(42, line);
     int pos = 1;
     cout << "Input player you want to choose (1-3): ";
     GotoXY(42, line + 1);
-    cout << "Press exit to back.";
+    cout << "Press esc to back.";
     if (key == 27) return NULL;
-    if (key == 13) return PlayerList[1];
-    else if (key == '1') pos = 1;
-    else if (key == '2') pos = 2;
-    else if (key == '3') pos = 3;
+    if (key == 13) return PlayerList[0];
+    else if (key == '1' && (key - '0') < PlayerList.size()) pos = 1;
+    else if (key == '2' && (key - '0') < PlayerList.size()) pos = 2;
+    else if (key == '3' && (key - '0') < PlayerList.size()) pos = 3;
     return PlayerList[PlayerList.size() - pos];
 }
 void GameHighScores(screen Display, string fileName, int color, screen PlayGround) {
@@ -299,6 +301,12 @@ void GameHighScores(screen Display, string fileName, int color, screen PlayGroun
     vector<Player> PlayerList;
     vector<string> dateList;
     ifstream fi(fileName);
+
+    if (fi.fail()) {
+        GotoXY(52, 25);
+        cout << "Empty...";
+        return;
+    }
     while (!fi.eof()) {
         getline(fi, name);
         if (name != "") {
@@ -313,6 +321,7 @@ void GameHighScores(screen Display, string fileName, int color, screen PlayGroun
         }
     }
     int line = 25;
+    
     sort(PlayerList.begin(), PlayerList.end(), Player::comp);
 
     if (PlayerList.size() >= 3) {
@@ -379,6 +388,7 @@ Again:
     bool GameLose = false;
     bool PlayGame = false;
     bool Init = false;
+    bool Sound = true;
 
     while (*Running) {
         if (newKey && !RunningGame && !HighScoreOpen && !GameLose && !InstructionOpen && !LoadGame && !PlayGame && !Init) {
@@ -413,7 +423,7 @@ Again:
             newKey = false;
         }
         else if (newKey && HighScoreOpen) {
-            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
+            sndPlaySound(TEXT("./SoundTrack/SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             HighScoreOpen = false;
             newKey = false;
             break;
@@ -424,7 +434,7 @@ Again:
             break;
         }
         else if (newKey && InstructionOpen) {
-            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
+            sndPlaySound(TEXT("./SoundTrack/SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             InstructionOpen = false;
             newKey = false;
             break;
@@ -458,13 +468,13 @@ Again:
             for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
             LoadGame = false;
             newKey = false;
-            mciSendString(TEXT("open \"PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
-            mciSendString(TEXT("play wav"), NULL, 0, NULL);
+            mciSendString(TEXT("open \"./SoundTrack/PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
+            mciSendString(TEXT("play wav repeat"), NULL, 0, NULL);
             RunningGame = true;
         }
         else if (newKey && PlayGame) {
             system("cls");
-            sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
+            sndPlaySound(TEXT("./SoundTrack/SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
             Display._levelScreen(6);
             PlayGame = false;
             Init = true;
@@ -497,8 +507,8 @@ Again:
                 Light._printLightFrame(6);
                 for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
                 Init = false;
-                mciSendString(TEXT("open \"PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
-                mciSendString(TEXT("play wav"), NULL, 0, NULL);
+                mciSendString(TEXT("open \"./SoundTrack/PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
+                mciSendString(TEXT("play wav repeat"), NULL, 0, NULL);
                 RunningGame = true;
                 
             }
@@ -539,6 +549,21 @@ Again:
                         timeDeleteNofication = 60;
                         Exit = true;
                     }
+                    else if (*key == 'm') {
+                        DWORD dwVolume;
+                        if (Sound) {
+                            waveOutSetVolume(NULL, 0);
+                            Menu._menuNofication("Sound mute...");
+                            timeDeleteNofication = 5;
+                            Sound = false;
+                        }
+                        else {
+                            waveOutSetVolume(NULL, 0xFFFF);
+                            Menu._menuNofication("Sound unmute...");
+                            timeDeleteNofication = 5;
+                            Sound = true;
+                        }
+                    }
                     else a->_move(PlayGround, toupper(*key));
                     
                 }
@@ -566,6 +591,7 @@ Again:
                 newKey = false;
             }
             if (a->_checkCollision(carPos, (int)listCar.size())) {
+                sndPlaySound(TEXT("./SoundTrack/CarHit.wav"), SND_FILENAME | SND_ASYNC);
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
@@ -574,6 +600,7 @@ Again:
             }
 
             if (a->_checkCollision(animalPos, (int)listAnimal.size())) {
+                sndPlaySound(TEXT("./SoundTrack/CarHit.wav"), SND_FILENAME | SND_ASYNC);
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
@@ -589,8 +616,11 @@ Again:
             }
             else Menu._printScoreMenu(6, a->getPoint(), a->getName(), a->getLife(), a->getLevel());
             if (a->_winCheck()) {
+                sndPlaySound(TEXT("./SoundTrack/WinLevel.wav"), SND_FILENAME | SND_ASYNC);
+                Sleep(1000);
                 system("cls");
                 a->setLevel(a->getLevel() + 1);
+                
                 Menu._printFrame(6);
                 Menu._printScoreMenu(6, 0, a->getName(), a->getLife(), a->getLevel());
                 PlayGround._printFrame(6);
@@ -614,9 +644,10 @@ Again:
         }
     }
     GameReset(a, listCar, listLight, listAnimal, carPos, animalPos);
-    goto Again;
-    
+    goto Again;    
 }
+
+
 
 int main() {
     srand(time(NULL));
@@ -624,7 +655,12 @@ int main() {
     bool* run = new bool; *run = true;
     char* key = new char; *key = ' ';
     bool newKey = true;
-    
+
+    DWORD dwVolume;
+
+    //Set Max volume
+    waveOutSetVolume(NULL, 0xFFFF);
+
     thread t1(Thread_running, run, key, ref(newKey));
 
     while (1) {

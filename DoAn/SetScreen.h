@@ -181,7 +181,7 @@ public:
 		SetColor(0, 7);
 	}
 	int displayMove(int &x, int &y, char key) {
-		sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC );
+		sndPlaySound(TEXT("./SoundTrack/SelectInMenu.wav"), SND_FILENAME | SND_ASYNC );
 		if (key != 'W' && key != 'S') return y;
 		int xc = x, yc = y;
 		if (key == 'W' && y > 25) y--;
@@ -274,12 +274,14 @@ public:
 		GotoXY(x + 2, y + 24);
 		cout<<"stop.";
 		GotoXY(x + 2, y + 25);
-		cout << "- Press b to save game.";
+		cout << "- Press m to mute sound.";
 		GotoXY(x + 2, y + 26);
-		cout << "- Press Esc to back to Menu.";
+		cout << "- Press b to save game.";
 		GotoXY(x + 2, y + 27);
-		cout << "You will recive nofication to ask save";
+		cout << "- Press Esc to back to Menu.";
 		GotoXY(x + 2, y + 28);
+		cout << "You will recive nofication to ask save";
+		GotoXY(x + 2, y + 29);
 		cout<<"game.";
 		SetColor(0, 6);
 		for (int i = x;i < z;i++) {
@@ -330,6 +332,31 @@ public:
 	void _printInstruction(int color) {
 		system("cls");
 		this->_printFrame(color);
+		SetColor(0, color);
+		GotoXY(3, 8);
+		cout << "  __    __   __    ______    ______   ______    __  __    ______    ______   __    ______    __   __    ";
+		GotoXY(3, 9);
+		cout << " /\\ \\  /\\ \"-.\\ \\  /\\  ___\\  /\\__  _\\ /\\  == \\  /\\ \\/\\ \\  /\\  ___\\  /\\__  _\\ /\\ \\  /\\  __ \\  /\\ \"-.\\ \\   ";
+		GotoXY(3, 10);
+		cout << " \\ \\ \\ \\ \\ \\-.  \\ \\ \\___  \\ \\/_/\\ \\/ \\ \\  __<  \\ \\ \\_\\ \\ \\ \\ \\____ \\/_/\\ \\/ \\ \\ \\ \\ \\ \\/\\ \\ \\ \\ \\-.  \\  ";
+		GotoXY(48, 11);
+		cout << "TEAM 5 - OOP";
+		GotoXY(47, 12);
+		cout << "CROSSING - ROAD";
+		GotoXY(3, 13);
+		cout << "    \\ \\_\\ \\ \\_\\\\\"\\_\\ \\/\\_____\\   \\ \\_\\  \\ \\_\\ \\_\\ \\ \\_____\\ \\ \\_____\\   \\ \\_\\  \\ \\_\\ \\ \\_____\\ \\ \\_\\\\\"\\_\\ ";
+		GotoXY(3, 14);
+		cout << "     \\/_/  \\/_/ \\/_/  \\/_____/    \\/_/   \\/_/ /_/  \\/_____/  \\/_____/    \\/_/   \\/_/  \\/_____/  \\/_/ \\/_/ ";
+		GotoXY(36, 18);
+		cout << "20127003 - HOANG QUOC BAO (LEADER " << char(4) << ")";
+		GotoXY(36, 19);
+		cout << "20127443 - NGUYEN HO HUU BANG (MEMBER)";
+		GotoXY(36, 20);
+		cout << "20127480 - NGUYEN TIEN DUY (MEMBER)";
+		GotoXY(36, 21);
+		cout << "20127531 - TRUONG TRONG KHANH (MEMBER)";
+		GotoXY(36, 22);
+		cout << "20127684 - MAI TRAN KHANH DUY (MEMBER)";
 	}
 	void _printHowToPlay(int color) {
 		system("cls");
@@ -374,7 +401,7 @@ public:
 		SetColor(0, 7);
 	}
 	int _chooseLevel(int& x, int& y, char key) {
-		sndPlaySound(TEXT("SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
+		sndPlaySound(TEXT("./SoundTrack/SelectInMenu.wav"), SND_FILENAME | SND_ASYNC);
 		if (key != 'W' && key != 'S') {
 			if (y == 25) return 1;
 			if (y == 26) return 11;
