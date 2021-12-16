@@ -99,7 +99,7 @@ void GameLoad(screen PlayGround, screen Light,
             carNumber--;
             Lane[tempLane] = true;
         }
-    }
+    }   
     while (truckNumber > 0) {
         int tempLane = rand() % 9;
         if (tempLane == 0) continue;
@@ -214,6 +214,7 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
 
     vector<Player*> PlayerList;
     vector<string> dateList;
+
     ifstream fi(fileName);
     if (fi.fail()) {
         GotoXY(52, 25);
@@ -349,14 +350,18 @@ void GameHighScores(screen Display, string fileName, int color, screen PlayGroun
 
 void Thread_running(bool* Running, char* key, bool& newKey) {
     srand(time(NULL));
+
     screen Menu(70, 0, 110, 40);
     screen PlayGround(0, 0, 65, 40);
     screen Display(0, 0, 110, 40);
     screen Light(65, 0, 70, 40);
+
     Display._format();
+
 Again:
-    Player* a = new Player(PlayGround);
     system("cls");
+
+    Player* a = new Player(PlayGround);
     Display._printFrame(6);
     Display._printDisplay(6);
 
@@ -366,17 +371,21 @@ Again:
 
     time_t now = time(0);
     tm* ltm = localtime(&now);
+
     int sec = 1 + ltm->tm_sec;
     int preSec = sec;
 
     int display_x = 47, display_y = 25;
     int display_x_playgame = 48;
+
     int choose = 25;
     int level = 11;
-    bool RunningGame = false;
+    
     int** carPos = new int* [listCar.size()];
     int** animalPos = new int* [listAnimal.size()];
     int timeDeleteNofication = 5;
+
+    bool RunningGame = false;
     bool Exit = false;
     bool HighScoreOpen = false;
     bool InstructionOpen = false;
@@ -515,6 +524,7 @@ Again:
             now = time(0);
             ltm = localtime(&now);
             sec = 1 + ltm->tm_sec;
+
             if (sec != preSec) {
                 preSec = sec;
                 for (unsigned int i = 0;i < listLight.size();i++)
@@ -525,6 +535,7 @@ Again:
                     timeDeleteNofication = 5;
                 }
             }
+
             for (unsigned int i = 0;i < listCar.size();i++)
                 if (rand() % 10 == 1 && listLight[i].GetStatus() != 2)
                     carPos[i] = listCar[i]->_move(PlayGround, 50 + rand() % 100);
@@ -561,10 +572,9 @@ Again:
                         }
                     }
                     else a->_move(PlayGround, toupper(*key));
-
                 }
                 else {
-                    if (*key == 'y') {
+                    if (toupper(*key) == 'Y') {
                         GameSave(a, "SaveGame.txt", Menu);
                         Menu._menuNofication("Game Save...");
                         timeDeleteNofication = 5;
@@ -572,7 +582,7 @@ Again:
                         newKey = false;
                         break;
                     }
-                    if (*key == 'n') {
+                    if (toupper(*key) == 'N') {
                         Exit = false;
                         newKey = false;
                         break;
@@ -586,22 +596,22 @@ Again:
                 }
                 newKey = false;
             }
+
             if (a->_checkCollision(carPos, (int)listCar.size())) {
                 sndPlaySound(TEXT("./SoundTrack/CarHit.wav"), SND_FILENAME | SND_ASYNC);
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
-                timeDeleteNofication = 5;
                 Menu._menuNofication(nofication);
+                timeDeleteNofication = 5;
             }
-
             if (a->_checkCollision(animalPos, (int)listAnimal.size())) {
                 sndPlaySound(TEXT("./SoundTrack/CarHit.wav"), SND_FILENAME | SND_ASYNC);
                 a->setLife(a->getLife() - 1);
                 a->_resetPosition(PlayGround);
                 string nofication = "-1 Life. You only have " + to_string(a->getLife()) + " left...";
-                timeDeleteNofication = 5;
                 Menu._menuNofication(nofication);
+                timeDeleteNofication = 5;
             }
 
             if (a->getLife() == 0) {
@@ -618,6 +628,7 @@ Again:
             if (a->_winCheck()) {
                 sndPlaySound(TEXT("./SoundTrack/WinLevel.wav"), SND_FILENAME | SND_ASYNC);
                 Sleep(1000);
+
                 system("cls");
                 a->setLevel(a->getLevel() + 1);
 
@@ -627,6 +638,7 @@ Again:
                 a->_resetPosition(PlayGround);
 
                 GameLoad(PlayGround, Light, listCar, listLight, listAnimal, a->getLevel());
+
                 delete[] carPos;
                 delete[] animalPos;
 
