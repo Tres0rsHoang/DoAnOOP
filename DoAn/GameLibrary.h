@@ -416,7 +416,7 @@ Again:
                 }
                 if (choose == 28) {
                     system("cls");
-                    Display._printInstruction(6);
+                    Display._printCredits(6);
                     InstructionOpen = true;
                 }
                 if (choose == 29) {

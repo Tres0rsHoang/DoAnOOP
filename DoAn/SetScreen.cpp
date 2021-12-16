@@ -152,7 +152,7 @@ void screen::_printDisplay(int color) {
 	GotoXY(51, 27);
 	cout << "High Scores";
 	GotoXY(51, 28);
-	cout << "Intruction";
+	cout << "Credits";
 	GotoXY(51, 29);
 	cout << "Exit";
 	SetColor(0, 7);
@@ -169,7 +169,7 @@ int screen::displayMove(int& x, int& y, char key) {
 	if (yc == 25) cout << "    New Game";
 	else if (yc == 26) cout << "    Load Game";
 	else if (yc == 27) cout << "    High Scores";
-	else if (yc == 28) cout << "    Intruction";
+	else if (yc == 28) cout << "    Credits";
 	else if (yc == 29) cout << "    Exit";
 	xc = x; yc = y;
 	GotoXY(x, y);
@@ -177,7 +177,7 @@ int screen::displayMove(int& x, int& y, char key) {
 	if (y == 25) cout << ">> New Game ";
 	else if (y == 26) cout << ">> Load Game ";
 	else if (y == 27) cout << ">> High Scores ";
-	else if (y == 28) cout << ">> Intruction ";
+	else if (y == 28) cout << ">> Credits ";
 	else if (y == 29) cout << ">> Exit ";
 	SetColor(0, 7);
 	return y;
@@ -306,33 +306,33 @@ void screen::_ThanksForPlaying() {
 	system("cls");
 	cout << "Thanks For Playing...\n";
 }
-void screen::_printInstruction(int color) {
+void screen::_printCredits(int color) {
 	system("cls");
 	this->_printFrame(color);
 	SetColor(0, color);
-	GotoXY(3, 8);
-	cout << "  __    __   __    ______    ______   ______    __  __    ______    ______   __    ______    __   __    ";
-	GotoXY(3, 9);
-	cout << " /\\ \\  /\\ \"-.\\ \\  /\\  ___\\  /\\__  _\\ /\\  == \\  /\\ \\/\\ \\  /\\  ___\\  /\\__  _\\ /\\ \\  /\\  __ \\  /\\ \"-.\\ \\   ";
-	GotoXY(3, 10);
-	cout << " \\ \\ \\ \\ \\ \\-.  \\ \\ \\___  \\ \\/_/\\ \\/ \\ \\  __<  \\ \\ \\_\\ \\ \\ \\ \\____ \\/_/\\ \\/ \\ \\ \\ \\ \\ \\/\\ \\ \\ \\ \\-.  \\  ";
-	GotoXY(48, 11);
-	cout << "TEAM 5 - OOP";
-	GotoXY(47, 12);
-	cout << "CROSSING - ROAD";
-	GotoXY(3, 13);
-	cout << "    \\ \\_\\ \\ \\_\\\\\"\\_\\ \\/\\_____\\   \\ \\_\\  \\ \\_\\ \\_\\ \\ \\_____\\ \\ \\_____\\   \\ \\_\\  \\ \\_\\ \\ \\_____\\ \\ \\_\\\\\"\\_\\ ";
-	GotoXY(3, 14);
-	cout << "     \\/_/  \\/_/ \\/_/  \\/_____/    \\/_/   \\/_/ /_/  \\/_____/  \\/_____/    \\/_/   \\/_/  \\/_____/  \\/_/ \\/_/ ";
-	GotoXY(36, 18);
+	GotoXY(20, 8);
+	cout << " ______     ______     ______     _____     __     ______   ______    ";
+	GotoXY(20, 9);
+	cout << "/\\  ___\\   /\\  == \\   /\\  ___\\   /\\  __-.  /\\ \\   /\\__  _\\ /\\  ___\\   ";
+	GotoXY(20, 10);
+	cout << "\\ \\ \\____  \\ \\  __<   \\ \\  __\\   \\ \\ \\/\\ \\ \\ \\ \\  \\/_/\\ \\/ \\ \\___  \\  ";
+	GotoXY(44, 11);
+	cout << " TEAM 5 - CROSSING ROAD";
+	GotoXY(20, 12);
+	cout << "  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\____-  \\ \\_\\    \\ \\_\\  \\/\\_____\\ ";
+	GotoXY(20, 13);
+	cout << "   \\/_____/   \\/_/ /_/   \\/_____/   \\/____/   \\/_/     \\/_/   \\/_____/ ";
+	GotoXY(37, 18);
+	cout << "Giao vien huong dan: TRUONG TOAN THINH";
+	GotoXY(37, 20);
 	cout << "20127003 - HOANG QUOC BAO (LEADER " << char(4) << ")";
-	GotoXY(36, 19);
+	GotoXY(37, 21);
 	cout << "20127443 - NGUYEN HO HUU BANG (MEMBER)";
-	GotoXY(36, 20);
-	cout << "20127480 - NGUYEN TIEN DUY (MEMBER)";
-	GotoXY(36, 21);
+	GotoXY(37, 22);
+	cout << "20127483 - NGUYEN TIEN DUY (MEMBER)";
+	GotoXY(37, 23);
 	cout << "20127531 - TRUONG TRONG KHANH (MEMBER)";
-	GotoXY(36, 22);
+	GotoXY(37, 24);
 	cout << "20127684 - MAI TRAN KHANH DUY (MEMBER)";
 }
 void screen::_printHowToPlay(int color) {

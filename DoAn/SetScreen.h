@@ -47,7 +47,7 @@ public:
 	void _loseScreen(int score);
 	void _menuNofication(string a);
 	void _ThanksForPlaying();
-	void _printInstruction(int color);
+	void _printCredits(int color);
 	void _printHowToPlay(int color);
 	void _levelScreen(int color);
 	int _chooseLevel(int& x, int& y, char key);
