@@ -336,7 +336,7 @@ void GameHighScores(screen Display, string fileName, int color, screen PlayGroun
     else {
         for (unsigned int i = 0;i < PlayerList.size();i++) {
             GotoXY(40, line);
-            cout << 3 - i << ". ";
+            cout << PlayerList.size() - i << ". ";
             cout << "Player name: " << PlayerList[i].getName();
             GotoXY(43, line + 1);
             cout << "Scores: " << PlayerList[i].getPoint() << " Life: " << PlayerList[i].getLife() << " Level: " << PlayerList[i].getLevel();
