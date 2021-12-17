@@ -37,7 +37,9 @@ void Car::GotoXY(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-int Car::GetX() { return this->x; }
+int Car::GetX() { 
+    return this->x; 
+}
 void Car::SetX(int x) {
     this->x = x;
 }

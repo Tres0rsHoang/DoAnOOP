@@ -66,6 +66,7 @@ void Player::_destroy() {
     GotoXY(this->x, this->y + 2);
     cout << "   " << endl;
 }
+
 int Player::getY() {
     return this->y;
 }
@@ -86,6 +87,7 @@ void Player::showPoint() {
 void Player::setPoint(int a) {
     this->point = a;
 }
+
 void Player::checkPoint(char choose) {
     if (choose == 'W') {
         switch (this->y)

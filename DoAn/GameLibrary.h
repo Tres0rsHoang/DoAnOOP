@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void GotoXY(int x, int y) {
     COORD coord;
     coord.X = x;
@@ -235,6 +234,7 @@ Player* GameLoadFileFile(screen Display, string fileName, int color, screen Play
         }
     }
     int line = 25;
+
     if (PlayerList.size() >= 3) {
         for (unsigned int i = PlayerList.size() - 3;i < PlayerList.size();i++) {
             GotoXY(41, line);
@@ -474,7 +474,7 @@ Again:
             LoadGame = false;
             newKey = false;
             mciSendString(TEXT("open \"./SoundTrack/PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
-            mciSendString(TEXT("play wav repeat"), NULL, 0, NULL);
+            mciSendString(TEXT("play wav repeat from 0"), NULL, 0, NULL);
             RunningGame = true;
         }
         else if (newKey && PlayGame) {
@@ -513,7 +513,7 @@ Again:
                 for (unsigned int i = 0;i < listLight.size();i++) listLight[i]._show();
                 Init = false;
                 mciSendString(TEXT("open \"./SoundTrack/PlayGameSound.wav\" type mpegvideo alias wav"), NULL, 0, NULL);
-                mciSendString(TEXT("play wav repeat"), NULL, 0, NULL);
+                mciSendString(TEXT("play wav repeat from 0"), NULL, 0, NULL);
                 RunningGame = true;
 
             }

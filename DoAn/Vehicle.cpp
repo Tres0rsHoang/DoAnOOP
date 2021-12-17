@@ -6,7 +6,7 @@ Vehicle::Vehicle() {
     this->x = 0;
     this->y = 0;
     this->direction = 0;
-    this->length = 16;
+    this->length = 0;
 }
 Vehicle::Vehicle(screen PlayGround, int lane, bool right) {
     int* background = PlayGround._getinform();
@@ -74,7 +74,7 @@ int Vehicle::GetLane() { return this->y; }
 int* Vehicle::_move(screen PlayGround, int speed) {
     int* background = PlayGround._getinform();
     int* pos = new int[4];
-    //GotoXY(0, 0);
+    
     if (!this->GetDirection()) {
         if (this->GetX() < background[2] - this->GetLength() - 1) {
             this->_show();
@@ -93,6 +93,7 @@ int* Vehicle::_move(screen PlayGround, int speed) {
             Sleep(speed);
         }
         this->SetX(this->GetX() + 1);
+
         pos[0] = this->GetX();
         pos[1] = this->GetY();
         pos[2] = this->GetX() + this->GetLength() - 2;

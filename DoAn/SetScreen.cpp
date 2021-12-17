@@ -69,6 +69,7 @@ void screen::ShowCur(bool CursorVisibility) {
 
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
+
 void screen::_input(int x, int y, int z, int t) {
 	this->x = x;
 	this->y = y;
@@ -196,11 +197,25 @@ string screen::_inputNameScreen(int color) {
 	cout << " \\ \\_____\\ \\_\\ \\_\\ \\_____\\/\\_____\\/\\_____\\ \\_\\ \\_\\\\\"\\_\\ \\_____\\    \\ \\_\\ \\_\\ \\_____\\ \\_\\ \\_\\ \\____- ";
 	GotoXY(6, 15);
 	cout << "  \\/_____/\\/_/ /_/\\/_____/\\/_____/\\/_____/\\/_/\\/_/ \\/_/\\/_____/     \\/_/ /_/\\/_____/\\/_/\\/_/\\/____/ ";
+
+	SetColor(6, 0);
+	GotoXY(this->x + 40, this->y + 24);
+	cout << "If you input empty name or name";
+	GotoXY(this->x + 40, this->y + 25);
+	cout << "with length longer than 16 character.";
+	GotoXY(this->x + 40, this->y + 26);
+	cout<<"Your name will be \"New Player\".";
+	
 	GotoXY(this->x + 40, this->y + 22);
 	string name;
-	SetColor(6, 0);
+	
 	cout << "Input your name: ";
+	
 	getline(cin, name);
+	if (name == "" || name.length() > 16) {
+		SetColor(0, 7);
+		return "New Player";
+	}
 	SetColor(0, 7);
 	return name;
 }
